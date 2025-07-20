@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <script>
+        // for search plugin notably
+        const base_url = "https://w8ay.fun/";
+    </script>
+    <script>
+    const darkTheme = window.matchMedia("(prefers-color-scheme: dark)");
+    darkTheme.onchange = (e) => {
+        if (e.matches) {
+            document.documentElement.classList.add("dark")
+            localStorage.theme = 'dark';
+        } else {
+            document.documentElement.classList.remove("dark")
+            localStorage.removeItem("theme")
+        }
+    };
+
+    // On page load. Priotiry to lcaolStorage
+    if (localStorage.theme === "dark") {
+        document.documentElement.classList.add("dark")
+    } else if (localStorage.theme === "light") {
+        document.documentElement.classList.remove("dark")
+    } else if (darkTheme.matches) {
+        document.documentElement.classList.add("dark")
+    } else {
+        document.documentElement.classList.remove("dark")
+    }
+
+    // set the layout based on localStorage
+    document.documentElement.classList.add(localStorage.getItem("html-layout") || "layout-fixed");
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>写在w13scan第一阶段 - W8AY's Blog</title>
+    
+
+
+<title>写在w13scan第一阶段</title>
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="https://w8ay.fun/Projects/%E5%86%99%E5%9C%A8w13scan%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/">
+
+
+<!-- Open Graph (Facebook, LinkedIn) -->
+
+<meta property="og:title" content="写在w13scan第一阶段">
+
+
+
+
+
+<meta property="og:url" content="https://w8ay.fun/Projects/%E5%86%99%E5%9C%A8w13scan%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/">
+
+
+
+
+
+
+<!-- Twitter Card -->
+
+<meta name="twitter:title" content="写在w13scan第一阶段">
+
+
+
+
+
+
+<!-- JSON-LD Structured Data -->
+
+
+
+    <link rel="icon" href="../../img/favicon.ico">
+
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/geist.css" rel="stylesheet">
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    
+    
+
+<link id="pygments-light" rel="stylesheet"
+    href="../../css/pygments/shadcn-light.css">
+<link id="pygments-dark" rel="stylesheet"
+    href="../../css/pygments/github-dark.css"
+    media="(prefers-color-scheme: dark)">
+
+
+    
+
+    
+
+    <script src="../../js/callbacks.js"></script>
+
+    
+
+    
+
+    
+
+</head>
+
+<body
+    class="text-foreground group/body overscroll-none font-sans antialiased [--footer-height:calc(var(--spacing)*14)] [--header-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)] theme-default">
+    <div id="inner-body" class="bg-background relative z-10 flex min-h-svh flex-col">
+        <header class="bg-background sticky top-0 z-50 w-full">
+    <div class="container-wrapper 3xl:fixed:px-0 px-6">
+        <div class="3xl:fixed:container flex h-(--header-height) items-center gap-2 **:data-[slot=separator]:!h-4">
+            <button id="menu-button" data-slot="popover-trigger" onclick="onMobileMenuButtonClick(event)"
+                class="group whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground px-4 py-2 has-[&gt;svg]:px-3 extend-touch-target h-8 touch-manipulation items-center justify-start gap-2.5 !p-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 active:bg-transparent dark:hover:bg-transparent flex lg:hidden"
+                type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«Rmplb»"
+                data-state="closed">
+                <div class="relative flex h-8 w-4 items-center justify-center">
+                    <div class="relative size-4">
+                        <!-- 16px x 16px -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="0" x2="16" y1="5" y2="5"
+                                class="group-data-[state=open]:translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:rotate-45 transition-all duration-300 origin-center" />
+                            <line x1="0" x2="16" y1="11" y2="11"
+                                class="group-data-[state=open]:-translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:-rotate-45 transition-all duration-300 origin-center" />
+                        </svg>
+                    </div>
+
+                    <span class="sr-only">Toggle Menu</span>
+                </div>
+                <span class="flex h-8 items-center text-lg leading-none font-medium">Menu</span>
+            </button>
+            <a data-slot="button"
+                class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-5 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 hidden h-8 lg:flex"
+                href="https://w8ay.fun/">
+                <span class="size-8 flex flex-row justify-center items-center">
+                    
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+    class="size-5">
+    <rect width="256" height="256" fill="none"></rect>
+    <line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="32"></line>
+    <line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="32"></line>
+</svg>
+
+
+                </span>
+                
+                <h1 class="pr-2">W8AY's Blog</h1>
+                
+            </a>
+            
+            <nav class="items-center gap-0.5 hidden lg:flex">
+    
+    
+    
+    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
+        data-slot="button" href="../2024%20%E6%96%B0%E5%8D%9A%E5%AE%A2%20%E6%96%B0%E7%9F%A5%E8%AF%86%E5%BA%93/">
+        Projects
+    </a>
+    
+    
+    
+    
+    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
+        data-slot="button" href="../../Tech/AI/Chatgpt-%E5%92%8C%E9%BB%91%E5%AE%A2%E7%9F%A5%E8%AF%86%E5%BA%93%E8%81%8A%E5%A4%A9/">
+        Tech
+    </a>
+    
+    
+    
+    
+    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
+        data-slot="button" href="../../Think/2018%20%E6%9A%91%E5%81%87%E8%A6%81%E5%81%9A%E7%9A%84/">
+        Think
+    </a>
+    
+    
+</nav>
+            
+            <div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
+                <div class="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
+                    <button data-slot="dialog-trigger" onclick="onSearchBarClick(event)"
+    class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-secondary/80 px-4 py-2 has-[&gt;svg]:px-3 bg-surface text-surface-foreground/60 dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64"
+    type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«R66plb»" data-state="closed">
+    <span class="text-muted-foreground hidden lg:inline-flex">Search documentation...</span>
+    <span class="text-muted-foreground inline-flex lg:hidden">Search...</span>
+    <div class="absolute top-1.5 right-1.5 hidden gap-1 sm:flex">
+        <kbd
+            class="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&amp;_svg:not([class*='size-'])]:size-3">Ctrl</kbd><kbd
+            class="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&amp;_svg:not([class*='size-'])]:size-3 aspect-square">K</kbd>
+    </div>
+</button>
+<dialog id="search-dialog" onclick="onSearchDialogClick(event)"
+    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border overflow-hidden p-0">
+    <div class="w-lg gap-4">
+        <div class="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
+            <div data-slot="command-input-wrapper" class="flex h-9 items-center gap-2 border-b px-3"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-search size-4 shrink-0 opacity-50">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+                <input data-slot="command-input"
+                    class="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Search documentation..." cmdk-input="" autocomplete="off" autocorrect="off"
+                    spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true"
+                    aria-controls="radix-«r1t6»" aria-labelledby="radix-«r1t7»" id="radix-«r1t8»" type="text" value=""
+                    aria-activedescendant="radix-«r1th»" oninput="onInputHandler(event)">
+            </div>
+        </div>
+        <div id="mkdocs-search-results" class="max-h-[300px] overflow-y-auto overflow-x-hidden">
+            <!-- search results go there -->
+        </div>
+    </div>
+</dialog>
+<script>
+    document.removeEventListener("keydown", searchShortcutHandler);
+    document.addEventListener("keydown", searchShortcutHandler);
+</script>
+                </div>
+                <div data-orientation="vertical" role="none" data-slot="separator"
+                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px ml-2 hidden lg:block">
+                </div>
+                <button data-slot="button"
+                    class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8 3xl:flex hidden"
+                    title="Toggle layout" onclick="toggleLayout(event)">
+                    <span class="sr-only">Toggle layout</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-gallery-horizontal">
+                        <path d="M2 3v18"></path>
+                        <rect width="12" height="18" x="6" y="3" rx="2"></rect>
+                        <path d="M22 3v18"></path>
+                    </svg>
+                </button>
+                <div data-orientation="vertical" role="none" data-slot="separator"
+                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
+                </div>
+                <button data-slot="button"
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 group/toggle extend-touch-target size-8"
+                    title="Toggle theme" onclick="onThemeSwitch(event)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="size-4.5">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                        <path d="M12 3l0 18"></path>
+                        <path d="M12 9l4.65 -4.65"></path>
+                        <path d="M12 14.3l7.37 -7.37"></path>
+                        <path d="M12 19.6l8.85 -8.85"></path>
+                    </svg>
+                    <span class="sr-only">Toggle theme</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+        <main class="flex flex-1 flex-col">
+            <div class="container-wrapper flex flex-1 flex-col px-2">
+                <div data-slot="sidebar-wrapper" style="--sidebar-width: 16rem; --sidebar-width-icon: 3rem;"
+                    class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex w-full 3xl:fixed:container 3xl:fixed:px-3 min-h-min flex-1 items-start px-0 [--sidebar-width:220px] [--top-spacing:0] lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] lg:[--sidebar-width:240px] lg:[--top-spacing:calc(var(--spacing)*4)]">
+                    <div data-slot="sidebar"
+                        class="text-sidebar-foreground w-(--sidebar-width) flex-col sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] bg-transparent lg:flex">
+                        <div data-slot="sidebar-content" data-sidebar="content"
+                            class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden no-scrollbar px-2 pb-12">
+                            <div class="h-(--top-spacing) shrink-0"></div>
+                            <div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2 no-scrollbar">
+    
+
+    
+    
+    
+
+    
+
+    
+    
+
+    
+    <div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2">
+        <div data-slot="sidebar-group-content" data-sidebar="group-content" class="w-full text-sm">
+            <ul data-slot="sidebar-menu" data-sidebar="menu" class="flex w-full min-w-0 flex-col gap-0.5">
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/2024%20%E6%96%B0%E5%8D%9A%E5%AE%A2%20%E6%96%B0%E7%9F%A5%E8%AF%86%E5%BA%93/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        2024 新博客 新知识库
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E8%87%AA%E5%8A%A8%E5%8C%96%E8%8E%B7%E5%BE%97%E5%BE%AE%E8%BD%AF%E6%BC%8F%E6%B4%9E%E8%B5%8F%E9%87%91%E7%9A%84%E7%BB%8F%E5%8E%86/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        自动化获得微软漏洞赏金的经历
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/ksubdomain%E6%96%B0%E7%89%88%E5%8F%91%E5%B8%83%2C%E6%AF%94massdns%E6%9B%B4%E5%BF%AB%EF%BC%81/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Ksubdomain新版发布,比massdns更快！
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%AE%89%E5%85%A8%E5%9C%88%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E6%91%B8%E9%B1%BC%E6%8A%A5%E5%91%8A/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        安全圈微信群聊摸鱼报告
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/Hacking8%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%85%A8%E5%92%8C%E5%88%A9%E7%94%A8Hacking8%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BF%A1%E6%81%AF%E6%B5%81/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Hacking8使用大全和利用Hacking8打造自己的知识信息流
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/Hacking8%E4%BF%A1%E6%81%AF%E6%B5%81%E6%B7%BB%E5%8A%A0%E5%B9%BF%E5%91%8A%E8%AF%86%E5%88%AB%E7%9A%84%E6%97%A5%E8%AE%B0/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Hacking8信息流添加广告识别的日记
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E6%96%B0%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%87%E5%BA%93%E6%83%B3%E6%B3%95/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        新的安全文库想法
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/ksubdomain%E6%97%A0%E7%8A%B6%E6%80%81%E5%9F%9F%E5%90%8D%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Ksubdomain无状态域名爆破工具
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w13scan%202.0%20%E5%8F%91%E5%B8%83/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13scan 2.0 发布
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w13scan%E5%90%AF%E5%8A%A8logo%E5%92%8C%E6%8A%A5%E5%91%8A%E9%A1%B5%E9%9D%A2/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13scan启动logo和报告页面
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w13scan%E6%AD%A3%E5%9C%A8%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%9B%B4%E6%96%B0/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13scan正在进行的更新
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w13scan%E4%BB%8A%E5%B9%B4%E5%B0%86%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%9B%B4%E6%96%B0/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13scan今年将进行的更新
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/xss%E6%89%AB%E6%8F%8F%E5%99%A8%E6%88%90%E9%95%BF%E8%AE%B0/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Xss扫描器成长记
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%9F%BA%E4%BA%8Ejs%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E7%9A%84dom-xss%E6%89%AB%E6%8F%8F%E5%9C%A8%E7%BA%BF%E6%B5%8B%E8%AF%95/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        基于js语义分析的dom xss扫描在线测试
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="true" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%86%99%E5%9C%A8w13scan%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        写在w13scan第一阶段
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w13scan%E5%8F%91%E7%8E%B0%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%BC%8F%E6%B4%9E/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13scan发现的第二个漏洞
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E8%AE%B0W13SCAN%E6%89%AB%E6%8F%8F%E5%88%B0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%BC%8F%E6%B4%9E/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        记W13SCAN扫描到的第一个漏洞
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/W13Scan%20%E7%95%85%E6%83%B3%EF%BD%9E/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13Scan 畅想～
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E6%9C%BA%E6%90%AD%E5%BB%BAW12Scan/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        如何在本机搭建W12Scan
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E-W12Scan-WEB%E7%AF%87/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        如何构建一个网络空间搜索引擎 W12Scan WEB篇
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/hack-requests%20v1.0%20%26%26%20%E8%AF%BBrequests%E8%AE%B0%E5%BD%95/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Hack requests v1.0 && 读requests记录
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w12scan%20%E5%9C%A8%E7%BA%BF%E9%83%A8%E7%BD%B2%E8%AE%B0%E5%BD%95/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W12scan 在线部署记录
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w12scan%20docker-compose%20%E7%BC%96%E6%8E%92%E8%B8%A9%E5%9D%91/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W12scan docker compose 编排踩坑
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w12scan%20WEB%E7%AB%AF%E5%AE%8C%E6%88%90%E4%BA%86/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        w12scan WEB端完成了
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w12scan%20%E5%BC%80%E5%8F%91%E8%BF%91%E5%86%B5/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W12scan 开发近况
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E2%9A%A1%EF%B8%8Fw12scan%E7%9A%84%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%9E%8B%E5%9B%BE%26Django%20%E8%AE%B0%E5%BD%95/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        ⚡️w12scan的前端设计原型图&Django 记录
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w12scan%20%E6%83%B3%E6%B3%95%E5%92%8Cfront-end/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W12scan 想法和front end
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/hack-requests_%E6%9B%B4%E5%A5%BD%E7%94%A8%E7%9A%84python%E7%BD%91%E7%BB%9C%E5%BA%93/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Hack requests 更好用的python网络库
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E4%B9%8B%E5%89%8D%E5%86%99%E5%86%99%E5%81%9C%E5%81%9C%E7%9A%84%E4%B8%9C%E8%A5%BF/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        记录一下之前写写停停的东西
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84WEB%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F%EF%BC%9Aw11scan%20%20%E9%A2%84%E8%A7%88/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        分布式的WEB指纹识别系统：w11scan  预览
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E6%9C%89%E5%85%B3w9scan%E7%9A%84%E7%BC%96%E7%A8%8B%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        有关w9scan的编程经验分享
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w9scan%20Bug%E5%8F%8D%E9%A6%88%E6%8F%90%E4%BA%A4/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        w9scan Bug反馈提交
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w9scan1.1~1.5/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W9scan1.1~1.5
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+    
+
+    
+
+
+    
+</div>
+                        </div>
+                    </div>
+                    <div class="h-full w-full">
+                        <div data-slot="docs" class="flex items-stretch text-[1.05rem] sm:text-[15px] xl:w-full">
+                            <div class="flex min-w-0 flex-1 flex-col">
+                                <div class="h-(--top-spacing) shrink-0"></div>
+                                <article class=" w-full">
+    <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2">
+            <div id="page-header" class="flex items-start justify-between">
+
+                <div class="flex flex-col gap-2">
+                    <h1 class="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
+                        写在w13scan第一阶段
+                    </h1>
+                    
+                    <time class="flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <svg class="h-4 w-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 2v4"/>
+                            <path d="M16 2v4"/>
+                            <rect width="18" height="18" x="3" y="4" rx="2"/>
+                            <path d="M3 10h18"/>
+                        </svg>
+                        <span>2019年08月29日</span>
+                    </time>
+                    
+                </div>
+
+                <div class="flex items-center gap-2 pt-1.5">
+                    
+                    <a data-slot="button"
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 extend-touch-target size-8 shadow-none md:size-7"
+                        href="/Projects/%E2%9A%A1%EF%B8%8Fw12scan%E7%9A%84%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%9E%8B%E5%9B%BE%26Django%20%E8%AE%B0%E5%BD%95/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="tabler-icon tabler-icon-arrow-left ">
+                            <path d="M5 12l14 0"></path>
+                            <path d="M5 12l6 6"></path>
+                            <path d="M5 12l6 -6"></path>
+                        </svg>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    
+                    
+                    <a data-slot="button"
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 extend-touch-target size-8 shadow-none md:size-7"
+                        href="/Projects/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84WEB%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F%EF%BC%9Aw11scan%20%20%E9%A2%84%E8%A7%88/">
+                        <span class="sr-only">Next</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="tabler-icon tabler-icon-arrow-right ">
+                            <path d="M5 12l14 0"></path>
+                            <path d="M13 18l6 -6"></path>
+                            <path d="M13 6l6 6"></path>
+                        </svg>
+                    </a>
+                    
+                </div>
+            </div>
+            
+        </div>
+        
+
+    </div>
+    <div class="typography w-full flex-1 *:data-[slot=alert]:first:mt-0">
+        <p>在<code>xray</code>发布后不久，便体验了一番，惊讶它将被动扫描与各种扫描插件结合的如此之好，但一些交互的地方和我需要的不太一样，可惜没有开源，没法折腾一下。网络上开源的被动扫描器都觉得不够好，大部分在安装这一步就放弃了，扫描规则很多直接调用的sqlmap，但现在似乎有点不合时宜了，正好这阵子学习了不少sqlmap，awvs，w3af等等扫描器的规则，所以我想将规则整合一下，做一款安全人员心中的扫描器。所以<code>w13scan</code>诞生了。</p>
+<h2 id="_1">想法</h2>
+<p>通过参考和对比现有的，大概列了一下想法</p>
+<ul>
+<li>支持三系统Windows/Linux/Mac <ul>
+<li>所以尽量使用纯Python代码以及Python原生库</li>
+</ul>
+</li>
+<li>显示扫描进度</li>
+<li>显示扫描成功结果的详细payload以及判断规则，方便复现和解决误报</li>
+<li>设计<code>插件系统</code>，每个扫描规则对应一个插件，能够在插件中调用插件。</li>
+<li>代理线程与扫描线程相互独立，发包请求不会干扰正常网页访问。<ul>
+<li>之前用<code>xray</code>扫描外网网站时，网站会很卡，我怀疑是它代理线程和扫描线程没有独立导致了阻塞，但我没有证据，不知道现在修复没有，总之我希望扫描线程不会影响到代理线程。</li>
+</ul>
+</li>
+<li>访问一个网址即可下载证书(模仿burpsuite)</li>
+<li>能主动对当前目录下的其他链接进行扫描。</li>
+</ul>
+<h3 id="_2">能预想到的困难以及解决</h3>
+<ul>
+<li>
+<p>代理框架的实现</p>
+<ul>
+<li>代理框架看到了开源的https://github.com/qiyeboy/BaseProxy</li>
+<li>看它的介绍，正是我心中理想的框架，作者的观点也和我有很多相似之处。代理框架是w13scan重要的一环，我对其中很多部分进行了魔改，现在好像看出来原本的样子了。</li>
+<li>
+<p>URL如何去重复</p>
+</li>
+<li>
+<p>作为被动扫描器，去重策略是很重要的点，不能让同一个网站进行相同两次的扫描。初步设想是去重策略在插件系统完成，插件系统内部过滤完再发送给相应插件。</p>
+</li>
+<li>之前的去重逻辑是通过<code>urlparse</code>将url解析后将<code>域名+路径+参数名称+插件名称</code>拼接在一起组合的哈希值，但后面测试中发现，很多框架例如<code>thinkphp</code>，只有几个参数名称，它通过传递不同的参数值来调用，所以现在去重逻辑是粗暴的将整个url都做hash，但同时也为后面进行效率优化埋下了伏笔。</li>
+<li>
+<p>针对请求异常的处理</p>
+</li>
+<li>
+<p>在使用发布的第一个版本是痛苦的，各种抛出的异常和报错怀疑人生。只能一个异常一个异常的进行的处理，有的异常可以直接pass，有的异常可以给它一个机会，让它再试一次。</p>
+</li>
+<li>后面模仿sqlmap的报告机制，在几处关键地方捕获异常并自动提交到GitHub issue上面，效果还不错，自此以后改的bug是越来越多了 :)</li>
+<li>大部分异常都和网络环境有关，有的是<code>socket</code>，有的是<code>requests</code>抛出的，在观察报告的issue中，经常能发现很多奇葩的情况，只能将这些异常一一捕获在进行处理。</li>
+<li>
+<p>插件系统的设计</p>
+</li>
+<li>
+<p>在构想中漏洞检测模块都是以插件的形式的存在，由插件系统统一调度，插件系统只需要接收请求包和返回包，内部会将这两种数据各种解析，发送给需要的插件。插件系统也增强了扩展性，后面可以指定各种类型的插件进行扫描，插件系统也有独立性，因为只需要接收请求包和返回包，意味着插件系统也可以单独独立出API，外部各种程序传入请求包和返回包即可。</p>
+</li>
+<li>
+<p>整个插件系统的代码结构是模仿的pocsuite3,它提供了很好的例子，例如如何管理各种插件以及如何保持在编写插件时需要的扩展。</p>
+</li>
+<li>
+<p>一个简单的插件结构如图<img alt="image-20190829113518463" src="../assert/3IjGT_image-20190829113518463.png" /></p>
+</li>
+<li>
+<p>通过调用基类的方法获取各种请求的数据，对这些数据进行判断即可，有了这些后后面只需要专心优化检测插件就好了。</p>
+</li>
+<li>
+<p>插件如何调用？</p>
+</li>
+<li>
+<p>仿照awvs设计了插件类别</p>
+<ul>
+<li>PerFile 对每个文件处理,包括文件后面的参数</li>
+<li>PerFolder 对每个目录处理</li>
+<li>PerScheme 对每个域名处理</li>
+<li>PostScan 对Post请求的处理<ul>
+<li>一个流程图如下</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img alt="W13SCAN" src="../assert/rtpb5_W13SCAN-DESIGN.jpg" />
+      * 先将请求包与返回包发送到loader插件，由loader插件解析后分发到各类插件。</p>
+<h3 id="_3">针对一些点的优化</h3>
+<p>在快速开发实现了第一个版本后，后续又对很多点进行了优化</p>
+<ul>
+<li>
+<p>针对POST数据包的识别</p>
+<ul>
+<li>
+<p>对POST的支持原本想的是比较容易的，但是看了sqlmap的处理后，就觉得不太简单了。在sqlmap的设计中，将post数据分为了下面几类</p>
+</li>
+<li>
+<p><code>python
+class POST_HINT(object):
+NORMAL = "NORMAL"
+SOAP = "SOAP"
+JSON = "JSON"
+JSON_LIKE = "JSON-like"
+MULTIPART = "MULTIPART"
+XML = "XML (generic)"
+ARRAY_LIKE = "Array-like"</code></p>
+</li>
+<li>它会通过正则来识别这些数据包的类型，不同数据包进行的操作是不同的。而作为一款自动化扫描器，我需要对这些格式都进行处理，并且能达到对每个参数都进行”污染“，这无疑是复杂且长期的工作。目前又对POST包进行识别，但是还未对其他类型的POST包进行处理。</li>
+<li>pip一键安装</li>
+<li>因为是纯Python写的，很容易封装成一个模块，按照前面的构想，将漏洞扫描的插件系统独立了出来，任何人引入W13SCAN的包，就能快速创建一个扫描。</li>
+<li>使用pip install安装
+  <code>bash
+  $ pip3 install w13scan</code>
+  ```python
+  from W13SCAN.api import Scanner</li>
+</ul>
+<p>scanner = Scanner(threads=20)
+  scanner.put("http://example.com/?post=1")
+  scanner.run()</p>
+<p>```</p>
+<ul>
+<li>目前API支持的还是有限的，使用pip安装另外一个好处是安装后直接在控制台输入<code>w13scan</code>就能启动扫描器了，更新的时候使用<code>pip3 install -U w13scan</code>就能进行更新。</li>
+</ul>
+</li>
+<li>
+<p>语言环境识别</p>
+<ul>
+<li>前面有说到，<code>loader</code>模块会对请求包和返回包作一些处理，语言环境识别就是其中一项，后面各项插件有针对PHP的，有针对ASP的，这项工作就是防止ASP类型的网站调用了PHP的插件，这是没必要的。</li>
+<li>识别方式很简单，调用了<code>Wappalyzer</code>中的一些指纹数据，从header头中进行匹配，也会对url后缀进行匹配，它将识别WEB服务器，编程语言和操作系统。</li>
+<li>
+<p>hook requests</p>
+</li>
+<li>
+<p>插件中网络请求使用的都是<code>requests</code>模块，通过hook，我们可以统一控制<code>requests</code>发送的请求头(headers),或者设定一个二层代理，扫描模块的流程都会转向它。同时我们还需要从requests中获取原始请求包和原始返回包，也是用hook进行实现的。当然这也是参考pocsuite实现的～</p>
+</li>
+<li>相关代码在<code>https://github.com/boy-hack/w13scan/blob/master/W13SCAN/thirdpart/requests/__init__.py</code>，有兴趣可以看看。</li>
+<li>
+<p>struts2系统扫描</p>
+</li>
+<li>
+<p>@Go0p 提交的struts2漏洞套餐，我意识到这些框架类的检测插件更适合被动扫描器，例如struts2,fastjson之类的。因为w13scan会对语言探测后再调用，也不用太担心一些效率问题。</p>
+</li>
+<li>现在也在考虑插件的分级制度，不同等级下调用不同的插件，分级的判断是该插件对网站的影响程度和防火墙识别识别到的程度。</li>
+</ul>
+</li>
+</ul>
+<h3 id="_4">踩过的一些坑</h3>
+<ul>
+<li>requests<ul>
+<li>url编码</li>
+<li>有时候不想让一些payload被url转义，但requests默认不转义的字符只有<code>#$%&amp;'()*+,/:;=?@[]</code>，其他的都会将它转义，只要是使用requests操作就会转义，这点需要注意下。</li>
+<li>keep-alive</li>
+<li>在一段时间经常会有<code>Max retries exceeded</code>报错，后面了解到，requests本身会维护一个连接池，所有header头的<code>Connection</code>默认是<code>keep-alive</code>，当连接池超出了最大限度时就会报错，最后解决方案是在hook的时候设置全局header,<code>Connection:close</code></li>
+</ul>
+</li>
+<li>HTTPServer的销毁之难<ul>
+<li>代理服务器启动的是Python的内置模块<code>HTTPServer</code>，之前当用户结束想关闭w13scan时就会卡住，后面调试发现是HTTPServer的原因，调用<code>shutdown</code>却死活关闭不了，Google搜索到尝试的方法都试了一遍，没有太大帮助。</li>
+<li>最后静下来慢慢看HTTPServer的源码才发现，它会为每个连接启动一个线程，而这个线程的<code>daemon</code>默认是False（不跟随主线程退出），将它设置为True就好了，多年的疑难杂症就此终结了。。</li>
+</ul>
+</li>
+</ul>
+<h2 id="_5">扫描规则</h2>
+<p>在搜集了一圈现有的扫描器的规则，写了下面的扫描插件。</p>
+<p><img alt="image-20190829143718586" src="../assert/lWDYJ_image-20190829143718586.png" /></p>
+<p>写扫描插件的规则还是很有趣的，下面说说这些有趣的规则～</p>
+<h3 id="_6">反序列化参数分析</h3>
+<p>在w3af中找到的一个功能，但是在主动扫描器上似乎用处不大，被动扫描器正适合这个插件。如果参数中包含反序列化的参数就会被识别出来，反序列化的参数如果没有做好过滤会有很大危害。插件会通过正则识别JAVA、PHP、Python类型的反序列化参数。</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">isJavaObjectDeserialization</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;ro0ab&quot;</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">is_base64</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;ac ed 00 05&quot;</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">isPHPObjectDeserialization</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;O:&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;a:&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[O]:\d+:&quot;[^&quot;]+&quot;:\d+:{.*}&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">or</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^a:\d+:{(s:\d:&quot;[^&quot;]+&quot;;|i:\d+;).*}&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Tz&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;YT&quot;</span><span class="p">))</span> <span class="ow">and</span> <span class="n">is_base64</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">is_base64</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^[O]:\d+:&quot;[^&quot;]+&quot;:\d+:{.*}&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">or</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;^a:\d+:{(s:\d:&quot;[^&quot;]+&quot;;|i:\d+;).*}&#39;</span><span class="p">,</span> <span class="n">ret</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">isPythonObjectDeserialization</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">is_base64</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ret</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="c1"># pickle binary</span>
+    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;g&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="s2">&quot;8003&quot;</span><span class="p">))</span> <span class="ow">and</span> <span class="n">ret</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># pickle text versio</span>
+    <span class="k">elif</span> <span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;K&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;(dp1&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">ret</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;(lp1&quot;</span><span class="p">))</span> <span class="ow">and</span> <span class="n">ret</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</code></pre></div>
+
+<h3 id="jsonp">JSONP寻找插件</h3>
+<p>jsonp这一部分也能泄露挺多敏感信息，要感谢<code>P喵呜-PHPoop、ch1st、xiaoshi</code>提供的jsonp检测思路。</p>
+<div class="codehilite"><pre><span></span><code><span class="n">JSON_RECOGNITION_REGEX</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;(?s)\A(\s*\[)*\s*\{.*&quot;[^&quot;]+&quot;\s*:\s*(&quot;[^&quot;]*&quot;|\d+|true|false|null).*\}\s*(\]\s*)*\Z&#39;</span> <span class="c1"># json检测正则</span>
+
+<span class="n">JSONP_RECOGNITION_REGEX</span> <span class="o">=</span> <span class="s1">&#39;^\S+\(\{.*?\}\)&#39;</span> <span class="c1"># jsonp检测正则</span>
+</code></pre></div>
+
+<p>例如一个页面 http://www.seebug.net/demo?a=xxx&amp;b=xxx</p>
+<p>对返回包用上面正则进行匹配，如果匹配到是jsonp，会伪造一个Referer：http://www.seebug.net3a24f.com（原域名后面加随机字符） 再次请求，相似度和原返回包大于0.8则报告。</p>
+<p>如果返回包是json格式，那么先尝试在url后面加入<code>callback</code>或以下payload(来源 https://github.com/kapytein/jsonp)</p>
+<div class="codehilite"><pre><span></span><code><span class="na">.jsonp</span><span class="err">?</span><span class="no">callback</span><span class="err">=</span><span class="no">test</span>
+<span class="na">.jsonp</span>
+<span class="err">?</span><span class="nf">callback</span><span class="err">=</span><span class="no">test</span>
+<span class="err">?</span><span class="nf">jsonp</span><span class="err">=</span><span class="no">test</span>
+</code></pre></div>
+
+<p>看是否是jsonp，再按照jsonp的思路走。</p>
+<h3 id="sql">SQL注入判断</h3>
+<h4 id="_7">报错注入</h4>
+<p>报错注入实现想对简单，通过特定payload查找返回页面中数据即可。抓了下<code>xray</code>的payload，它用的是<code>鎈'"\(</code>这样子的payload。</p>
+<h4 id="_8">基于布尔的盲注</h4>
+<p>还是抓的<code>xray</code>的payload，如果参数是数字型，正确页面会尝试<code>1*1</code>这样做的payload，错误页面使用<code>1/0</code>payload，其他类型根据闭合的单双引号来判定。</p>
+<div class="codehilite"><pre><span></span><code>&#39;&amp;&amp;&#39;{0}&#39;=&#39;{1}
+&quot;&amp;&amp;&quot;{0}&quot;=&quot;{1}
+</code></pre></div>
+
+<p>然后替换其中的<code>{0}</code>，<code>{1}</code>即可。</p>
+<p>payload选择完了，应该怎么判断呢，一开始我使用的<code>w3af</code>中的页面相似度计算算法，它根据一些特殊的标签<code>&lt;'"</code>来分隔文本在进行比较，比较简单。但在后面测试的时候误报太多了，最后还是转而看sqlmap是如何实现的。</p>
+<p>这有一篇很好的文章讲述了sqlmap的检测技术：https://paper.seebug.org/729/</p>
+<p>我也对其中几个环节再进行了简化。</p>
+<ul>
+<li>首先访问一次网页，和原网页对比，若相似度小于0.98则动态去除网页中不同的部分。</li>
+<li>访问一次False页面，得到False页面与原页面的相似度 ratio_false</li>
+<li>访问一次True页面，得到True页面与原页面的相似度 ratio_true</li>
+<li>ratio_true &gt; 0.88 and ratio_true - ratio_false &gt; 0.05 and ratio_false &lt; 0.98 即可判断为sql注入</li>
+<li>否则按照换行符分隔原始页面，True页面，False页面获得originSet,trueSet,falseSet集合。<ul>
+<li>originSet 对 trueSet的差集小于2并且 trueSet != falseSet 并且 trueSet 对falseSet差集大于0 即可判断为注入。</li>
+</ul>
+</li>
+</ul>
+<p>代码参考：https://github.com/boy-hack/w13scan/blob/master/W13SCAN/plugins/PerFile/sql_inject_bool.py</p>
+<h4 id="_9">基于时间的盲注</h4>
+<p>基于时间的探测方式，会因为一些网络的波动，影响最后的判断结果。sqlmap的时间盲注会先发送30个请求来建立模型，但对扫描器来说，这样的效率太低了，所以就采用了awvs的时间盲注检测方法。</p>
+<ul>
+<li>
+<p>延时长度</p>
+<ul>
+<li>
+<p>awvs将延时分为了四种类型，0延时<code>ZeroDelay</code>,长延时<code>LongDelay</code>，非常长延时<code>VeryLongDelay</code>,中间延时<code>MidDelay</code>，顾名思义，每种类型延时的时间不一样。</p>
+</li>
+<li>
+<p>这些时间延时类型的判断依据只靠两个参数<code>longDuration</code>,<code>shortDuration</code></p>
+</li>
+<li>
+<p>这两个参数由下面算法计算
+  ```python
+  if internal_ip:
+    self.longDuration = 6
+    self.shortDuration = 2
+  else:
+    self.longDuration = 3
+    self.shortDuration = 1</p>
+</li>
+</ul>
+<p>r1 = requests.get(self.url, headers=self.headers)
+  time1 = r1.elapsed.total_seconds()
+  r2 = requests.get(self.url, headers=self.headers) 
+  time2 = r2.elapsed.total_seconds()</p>
+<p>_min = min(time1, time2)
+  _max = max(time1, time2)</p>
+<p>self.shortDuration = max(self.shortDuration, _max) + 1
+  self.longDuration = self.shortDuration * 2</p>
+<p>```</p>
+<ul>
+<li>可以看到内外网不同判断的参数也不一样</li>
+</ul>
+</li>
+<li>
+<p>随机延时测试</p>
+<ul>
+<li>接下来就是随机选取一种延时的类型来判断是否达到了延时需要的时间。</li>
+<li>awvs至少会进行8次这样的随机延时测试，测试成功即可判断存在注入</li>
+<li>当然，误差的容错也是有的，可以直接看代码。这种方式虽然暴力了点但是似乎没有其他好的办法了。</li>
+</ul>
+</li>
+</ul>
+<p>代码参考：https://github.com/boy-hack/w13scan/blob/master/W13SCAN/plugins/PerFile/sql_inject_time.py</p>
+<h3 id="xss">XSS检测</h3>
+<p>原来的XSS检测模块是参考https://www.anquanke.com/post/id/148357写的，但大部分都是针对反射型XSS，现在有点鸡肋了。</p>
+<p>前不久<code>xray</code>加入了一种基于语义的XSS检测插件，提供了一种新的思路。我也研究了一下，从敏感函数一直回溯到可控变量源，但是针对的情况有很多种，还需要进行大量的测试。</p>
+<p><img alt="image-20190829165204318" src="../assert/GjVt1_image-20190829165204318.png" /></p>
+<p>同时也感谢@LoRexxar’ 提供独家cobra代码参考。</p>
+<h3 id="_10">系统命令执行</h3>
+<p>放一个规则应该就明白了。</p>
+<div class="codehilite"><pre><span></span><code><span class="n">url_flag</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;set|set&amp;set&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s1">&#39;Path=[\s\S]*?PWD=&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Path=[\s\S]*?PATHEXT=&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Path=[\s\S]*?SHELL=&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Path</span><span class="se">\x3d</span><span class="s1">[\s\S]*?PWD</span><span class="se">\x3d</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Path</span><span class="se">\x3d</span><span class="s1">[\s\S]*?PATHEXT</span><span class="se">\x3d</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Path</span><span class="se">\x3d</span><span class="s1">[\s\S]*?SHELL</span><span class="se">\x3d</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SERVER_SIGNATURE=[\s\S]*?SERVER_SOFTWARE=&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;SERVER_SIGNATURE</span><span class="se">\x3d</span><span class="s1">[\s\S]*?SERVER_SOFTWARE</span><span class="se">\x3d</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Non-authoritative\sanswer:\s+Name:\s*&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;Server:\s*.*?</span><span class="se">\n</span><span class="s1">Address:\s*&#39;</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;echo `echo 6162983|base64`6162983&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">randint</span><span class="p">):</span> <span class="p">[</span>
+        <span class="s2">&quot;NjE2Mjk4Mwo=6162983&quot;</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>set</code>来自awvs，Win和Linux通用。<code>echo</code>来自<code>xray</code>，构造的语句很巧妙，有时候set判断不到就用这种了。</p>
+<h3 id="_11">敏感文件扫描</h3>
+<p>敏感文件集成了bbscan的规则 https://github.com/lijiejie/BBScan，将它按照敏感文件的类型分解成了多个插件，但除了规则基本是一样的。</p>
+<p>关于误报</p>
+<ul>
+<li>基于返回包大小进行验证</li>
+<li>扫描成功文件数量 &lt; 10 : 输出结果</li>
+<li>否则根据返回包长度进行统计，相同长度下url数量大于5 丢弃</li>
+</ul>
+<h3 id="js">JS敏感内容</h3>
+<p>会对js文件进行下列匹配</p>
+<div class="codehilite"><pre><span></span><code><span class="n">regx</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># 匹配url</span>
+    <span class="sa">r</span><span class="s1">&#39;(\b|</span><span class="se">\&#39;</span><span class="s1">|&quot;)(?:http:|https:)(?:[\w/\.]+)?(?:[a-zA-Z0-9_\-\.]{1,})\.(?:php|asp|ashx|jspx|aspx|jsp|json|action|html|txt|xml|do)(\b|</span><span class="se">\&#39;</span><span class="s1">|&quot;)&#39;</span><span class="p">,</span>
+    <span class="c1"># 匹配邮箱</span>
+    <span class="sa">r</span><span class="s1">&#39;[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]+)+&#39;</span><span class="p">,</span>
+    <span class="c1"># 匹配token或者密码泄露</span>
+    <span class="c1"># 例如token = xxxxxxxx, 或者&quot;apikey&quot; : &quot;xssss&quot;</span>
+    <span class="sa">r</span><span class="s1">&#39;\b(?:secret|secret_key|token|secret_token|auth_token|access_token|username|password|aws_access_key_id|aws_secret_access_key|secretkey|authtoken|accesstoken|access-token|authkey|client_secret|bucket|email|HEROKU_API_KEY|SF_USERNAME|PT_TOKEN|id_dsa|clientsecret|client-secret|encryption-key|pass|encryption_key|encryptionkey|secretkey|secret-key|bearer|JEKYLL_GITHUB_TOKEN|HOMEBREW_GITHUB_API_TOKEN|api_key|api_secret_key|api-key|private_key|client_key|client_id|sshkey|ssh_key|ssh-key|privatekey|DB_USERNAME|oauth_token|irc_pass|dbpasswd|xoxa-2|xoxrprivate-key|private_key|consumer_key|consumer_secret|access_token_secret|SLACK_BOT_TOKEN|slack_api_token|api_token|ConsumerKey|ConsumerSecret|SESSION_TOKEN|session_key|session_secret|slack_token|slack_secret_token|bot_access_token|passwd|api|eid|sid|api_key|apikey|userid|user_id|user-id)[&quot;\s]*(?::|=|=:|=&gt;)[&quot;\s]*[a-z0-9A-Z]{8,64}&quot;?&#39;</span><span class="p">,</span>
+    <span class="c1"># 匹配IP地址</span>
+    <span class="sa">r</span><span class="s1">&#39;\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.)</span><span class="si">{3}</span><span class="s1">(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b&#39;</span><span class="p">,</span>
+    <span class="c1"># 匹配云泄露</span>
+    <span class="sa">r</span><span class="s1">&#39;[\w]+\.cloudfront\.net&#39;</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s1">&#39;[\w\-.]+\.appspot\.com&#39;</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s1">&#39;[\w\-.]*s3[\w\-.]*\.?amazonaws\.com\/?[\w\-.]*&#39;</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s1">&#39;([\w\-.]*\.?digitaloceanspaces\.com\/?[\w\-.]*)&#39;</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s1">&#39;(storage\.cloud\.google\.com\/[\w\-.]+)&#39;</span><span class="p">,</span>
+    <span class="sa">r</span><span class="s1">&#39;([\w\-.]*\.?storage.googleapis.com\/?[\w\-.]*)&#39;</span><span class="p">,</span>
+    <span class="c1"># 匹配手机号</span>
+    <span class="sa">r</span><span class="s1">&#39;(?:139|138|137|136|135|134|147|150|151|152|157|158|159|178|182|183|184|187|188|198|130|131|132|155|156|166|185|186|145|175|176|133|153|177|173|180|181|189|199|170|171)[0-9]</span><span class="si">{8}</span><span class="s1">&#39;</span>
+    <span class="c1"># 匹配域名</span>
+    <span class="sa">r</span><span class="s1">&#39;((?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+(?:biz|cc|club|cn|com|co|edu|fun|group|info|ink|kim|link|live|ltd|mobi|net|online|org|pro|pub|red|ren|shop|site|store|tech|top|tv|vip|wang|wiki|work|xin|xyz|me))&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">dom_xss</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;location\.hash&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;location\.href&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;location\.search&#39;</span>
+<span class="p">]</span>
+<span class="n">regx</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dom_xss</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="_12">写在第二阶段前</h2>
+<h3 id="_13">目前不足</h3>
+<p>有尝试过使用一个爬虫+w13scan的检测插件接口做了一次批量测试，但检测效果没有达到预期，速度和效率都很低。</p>
+<p>目前的不足</p>
+<ul>
+<li>效率太低，扫描时间较长，随便测试一个网站都可以堆积100+检测队列。</li>
+<li>目前插件都是来自awvs中，有新意的插件不多</li>
+<li>POST插件不足，POST包类型需要考虑的很多，如何进行参数”污染“都是问题。</li>
+</ul>
+<h3 id="_14">未来构想</h3>
+<ul>
+<li>完善w13scan漏洞检测的API调用</li>
+<li>基于js语义的XSS检测模块</li>
+<li>完善POST类型检测插件</li>
+<li>寻找和改写有新意的插件～</li>
+</ul>
+<h3 id="_15">开源地址</h3>
+<p>https://github.com/boy-hack/w13scan</p>
+    </div>
+</article>
+                                <div class="mx-auto flex flex-wrap h-16 w-full max-w-2xl items-center gap-2 px-4 md:px-0">
+    
+    <a data-slot="button"
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 shadow-none"
+        href="/Projects/%E2%9A%A1%EF%B8%8Fw12scan%E7%9A%84%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%9E%8B%E5%9B%BE%26Django%20%E8%AE%B0%E5%BD%95/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="tabler-icon tabler-icon-arrow-left ">
+            <path d="M5 12l14 0"></path>
+            <path d="M5 12l6 6"></path>
+            <path d="M5 12l6 -6"></path>
+        </svg>
+        ⚡️w12scan的前端设计原型图&Django 记录
+    </a>
+    
+    
+    <a data-slot="button"
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 ml-auto shadow-none"
+        href="/Projects/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84WEB%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F%EF%BC%9Aw11scan%20%20%E9%A2%84%E8%A7%88/">
+        分布式的WEB指纹识别系统：w11scan  预览
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="tabler-icon tabler-icon-arrow-right ">
+            <path d="M5 12l14 0"></path>
+            <path d="M13 18l6 -6"></path>
+            <path d="M13 6l6 6"></path>
+        </svg>
+    </a>
+    
+</div>
+                                <dialog id="bottom-sidebar" onclick="onBottomSidebarDialogClick(event)" class="bg-transparent"
+    style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 58px); min-width: max-content; --radix-popper-transform-origin: 0% 0px; will-change: transform; z-index: 50; --radix-popper-available-width: 504px; --radix-popper-available-height: 857px; --radix-popper-anchor-width: 72.94999694824219px; --radix-popper-anchor-height: 32px;">
+    <div data-side="bottom" data-align="start" data-state="open" role="dialog" data-slot="popover-content"
+        class="text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-popover-content-transform-origin) border outline-hidden bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto rounded-none border-none p-0 shadow-none backdrop-blur duration-100"
+        style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
+        tabindex="-1">
+        <div class="flex flex-col gap-12 overflow-auto px-6 py-6">
+            
+            
+            
+
+            
+            <div class="flex flex-col gap-4">
+                <div class="text-muted-foreground text-sm font-medium">Menu</div>
+                <div class="flex flex-col gap-3">
+                    
+                    <a class="text-2xl font-medium" href="../../links/">
+                        
+                        Links
+                        
+                    </a>
+                    
+                    <a class="text-2xl font-medium" href="../../%E5%BE%AE%E8%AF%AD/">
+                        
+                        微语
+                        
+                    </a>
+                    
+                    <a class="text-2xl font-medium" href="../..">
+                        
+                        Home
+                        
+                    </a>
+                    
+                </div>
+            </div>
+            
+
+            
+            <div class="flex flex-col gap-8">
+                
+                <div class="flex flex-col gap-4">
+                    <div class="text-muted-foreground text-sm font-medium">Projects</div>
+                    
+                    <div class="flex flex-col gap-3">
+                        
+                        <a class="text-2xl font-medium" href="../w9scan1.1~1.5/">
+                            
+                            W9scan1.1~1.5
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w9scan%20Bug%E5%8F%8D%E9%A6%88%E6%8F%90%E4%BA%A4/">
+                            
+                            w9scan Bug反馈提交
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E6%9C%89%E5%85%B3w9scan%E7%9A%84%E7%BC%96%E7%A8%8B%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/">
+                            
+                            有关w9scan的编程经验分享
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84WEB%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F%EF%BC%9Aw11scan%20%20%E9%A2%84%E8%A7%88/">
+                            
+                            分布式的WEB指纹识别系统：w11scan  预览
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E4%B9%8B%E5%89%8D%E5%86%99%E5%86%99%E5%81%9C%E5%81%9C%E7%9A%84%E4%B8%9C%E8%A5%BF/">
+                            
+                            记录一下之前写写停停的东西
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../hack-requests_%E6%9B%B4%E5%A5%BD%E7%94%A8%E7%9A%84python%E7%BD%91%E7%BB%9C%E5%BA%93/">
+                            
+                            Hack requests 更好用的python网络库
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w12scan%20%E6%83%B3%E6%B3%95%E5%92%8Cfront-end/">
+                            
+                            W12scan 想法和front end
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E2%9A%A1%EF%B8%8Fw12scan%E7%9A%84%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%9E%8B%E5%9B%BE%26Django%20%E8%AE%B0%E5%BD%95/">
+                            
+                            ⚡️w12scan的前端设计原型图&Django 记录
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w12scan%20%E5%BC%80%E5%8F%91%E8%BF%91%E5%86%B5/">
+                            
+                            W12scan 开发近况
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w12scan%20WEB%E7%AB%AF%E5%AE%8C%E6%88%90%E4%BA%86/">
+                            
+                            w12scan WEB端完成了
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w12scan%20docker-compose%20%E7%BC%96%E6%8E%92%E8%B8%A9%E5%9D%91/">
+                            
+                            W12scan docker compose 编排踩坑
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w12scan%20%E5%9C%A8%E7%BA%BF%E9%83%A8%E7%BD%B2%E8%AE%B0%E5%BD%95/">
+                            
+                            W12scan 在线部署记录
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../hack-requests%20v1.0%20%26%26%20%E8%AF%BBrequests%E8%AE%B0%E5%BD%95/">
+                            
+                            Hack requests v1.0 && 读requests记录
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E-W12Scan-WEB%E7%AF%87/">
+                            
+                            如何构建一个网络空间搜索引擎 W12Scan WEB篇
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E6%9C%BA%E6%90%AD%E5%BB%BAW12Scan/">
+                            
+                            如何在本机搭建W12Scan
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../W13Scan%20%E7%95%85%E6%83%B3%EF%BD%9E/">
+                            
+                            W13Scan 畅想～
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E8%AE%B0W13SCAN%E6%89%AB%E6%8F%8F%E5%88%B0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%BC%8F%E6%B4%9E/">
+                            
+                            记W13SCAN扫描到的第一个漏洞
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w13scan%E5%8F%91%E7%8E%B0%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%BC%8F%E6%B4%9E/">
+                            
+                            W13scan发现的第二个漏洞
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="./">
+                            
+                            写在w13scan第一阶段
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%9F%BA%E4%BA%8Ejs%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E7%9A%84dom-xss%E6%89%AB%E6%8F%8F%E5%9C%A8%E7%BA%BF%E6%B5%8B%E8%AF%95/">
+                            
+                            基于js语义分析的dom xss扫描在线测试
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../xss%E6%89%AB%E6%8F%8F%E5%99%A8%E6%88%90%E9%95%BF%E8%AE%B0/">
+                            
+                            Xss扫描器成长记
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w13scan%E4%BB%8A%E5%B9%B4%E5%B0%86%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%9B%B4%E6%96%B0/">
+                            
+                            W13scan今年将进行的更新
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w13scan%E6%AD%A3%E5%9C%A8%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%9B%B4%E6%96%B0/">
+                            
+                            W13scan正在进行的更新
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w13scan%E5%90%AF%E5%8A%A8logo%E5%92%8C%E6%8A%A5%E5%91%8A%E9%A1%B5%E9%9D%A2/">
+                            
+                            W13scan启动logo和报告页面
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w13scan%202.0%20%E5%8F%91%E5%B8%83/">
+                            
+                            W13scan 2.0 发布
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../ksubdomain%E6%97%A0%E7%8A%B6%E6%80%81%E5%9F%9F%E5%90%8D%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7/">
+                            
+                            Ksubdomain无状态域名爆破工具
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E6%96%B0%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%87%E5%BA%93%E6%83%B3%E6%B3%95/">
+                            
+                            新的安全文库想法
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../Hacking8%E4%BF%A1%E6%81%AF%E6%B5%81%E6%B7%BB%E5%8A%A0%E5%B9%BF%E5%91%8A%E8%AF%86%E5%88%AB%E7%9A%84%E6%97%A5%E8%AE%B0/">
+                            
+                            Hacking8信息流添加广告识别的日记
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../Hacking8%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%85%A8%E5%92%8C%E5%88%A9%E7%94%A8Hacking8%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BF%A1%E6%81%AF%E6%B5%81/">
+                            
+                            Hacking8使用大全和利用Hacking8打造自己的知识信息流
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%AE%89%E5%85%A8%E5%9C%88%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E6%91%B8%E9%B1%BC%E6%8A%A5%E5%91%8A/">
+                            
+                            安全圈微信群聊摸鱼报告
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../ksubdomain%E6%96%B0%E7%89%88%E5%8F%91%E5%B8%83%2C%E6%AF%94massdns%E6%9B%B4%E5%BF%AB%EF%BC%81/">
+                            
+                            Ksubdomain新版发布,比massdns更快！
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E8%87%AA%E5%8A%A8%E5%8C%96%E8%8E%B7%E5%BE%97%E5%BE%AE%E8%BD%AF%E6%BC%8F%E6%B4%9E%E8%B5%8F%E9%87%91%E7%9A%84%E7%BB%8F%E5%8E%86/">
+                            
+                            自动化获得微软漏洞赏金的经历
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../2024%20%E6%96%B0%E5%8D%9A%E5%AE%A2%20%E6%96%B0%E7%9F%A5%E8%AF%86%E5%BA%93/">
+                            
+                            2024 新博客 新知识库
+                            
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                
+                <div class="flex flex-col gap-4">
+                    <div class="text-muted-foreground text-sm font-medium">Tech</div>
+                    
+                    <div class="flex flex-col gap-3">
+                        
+                    </div>
+                    
+                </div>
+                
+                <div class="flex flex-col gap-4">
+                    <div class="text-muted-foreground text-sm font-medium">Think</div>
+                    
+                    <div class="flex flex-col gap-3">
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E5%9B%9E%E5%BF%86%E5%95%8A_%E5%88%9D%E4%B8%AD%E5%86%99%E7%9A%84%E7%A8%8B%E5%BA%8F/">
+                            
+                            回忆啊 初中写的程序
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E5%85%B3%E4%BA%8E%E8%87%AA%E5%BB%BA%E7%9A%84Google%E9%95%9C%E5%83%8F/">
+                            
+                            关于自建的Google镜像
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%9C%80%E8%BF%91%E8%A6%81%E5%81%9A%E7%9A%84/">
+                            
+                            最近要做的
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/2018%20%E6%9A%91%E5%81%87%E8%A6%81%E5%81%9A%E7%9A%84/">
+                            
+                            2018 暑假要做的
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%9C%80%E8%BF%91%E4%BB%A5%E5%8F%8A%E6%9C%AA%E6%9D%A5%E5%81%9A%E7%9A%84/">
+                            
+                            最近以及未来做的
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E7%9C%8B%E5%AE%8CP%E7%89%9B%E5%8D%9A%E5%AE%A2%E5%90%8E%E7%9A%84%E6%84%9F%E6%83%B3/">
+                            
+                            看完P牛博客后的感想
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B2018/">
+                            
+                            总结一下2018
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E5%85%B3%E4%BA%8ET00ls%E4%B8%93%E8%AE%BF_%E5%85%B3%E4%BA%8E%E7%84%A6%E8%99%91/">
+                            
+                            关于T00ls专访 关于焦虑
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E5%A6%82%E4%BD%95%E5%8F%96%E8%88%8D%E7%94%A8%E6%88%B7%E7%9A%84%E2%80%9C%E5%8F%8B%E5%A5%BD%E2%80%9D%E4%BD%93%E9%AA%8C%EF%BC%9F/">
+                            
+                            如何取舍用户的“友好”体验？
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E4%B8%8B%E5%8D%8A%E5%B9%B4%E8%AE%A1%E5%88%92%EF%BD%9E/">
+                            
+                            下半年计划～
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%AF%95%E4%B8%9A%E5%90%8E%E7%9A%84%E4%B8%AD%E7%A7%8B/">
+                            
+                            毕业后的中秋
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%88%91%E6%89%80%E9%9D%A2%E4%B8%B4%E7%9A%84%E5%B7%A5%E4%BD%9C%E4%B8%8E%E7%88%B1%E5%A5%BD%E7%9A%84%E5%8F%96%E8%88%8D/">
+                            
+                            我所面临的工作与爱好的取舍
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/2019%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%26%E6%AF%95%E4%B8%9A%E5%8D%8A%E5%B9%B4/">
+                            
+                            2019年终总结&毕业半年
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/2020%E5%B9%B4%E6%80%BB%E7%BB%93/">
+                            
+                            2020年总结
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/2021%E5%B9%B4%E4%B8%AD%E6%80%BB%E7%BB%93/">
+                            
+                            2021年中总结
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%88%91%E7%9A%842021%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
+                            
+                            我的2021年终总结
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/2022%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%20-%20%E6%8A%80%E6%9C%AF%E4%B8%8E%E7%94%9F%E6%B4%BB/">
+                            
+                            2022年终总结   技术与生活
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/Hacking8%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B0%B1%E6%98%AF%E5%A5%BD%E7%8E%A9%20%E7%9F%A5%E8%AF%86%E6%98%9F%E7%90%83-%E5%85%AC%E4%BC%97%E5%8F%B72023%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
+                            
+                            Hacking8自动化就是好玩 知识星球 公众号2023年终总结
+                            
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            
+
+        </div>
+    </div>
+</dialog>
+                            </div>
+                            <div
+                                class="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
+                                <div class="h-(--top-spacing) shrink-0"></div>
+                                <div class="no-scrollbar overflow-y-auto px-8">
+    <div class="flex flex-col gap-2 p-4 pt-0 text-sm">
+        <p class="text-muted-foreground bg-background sticky top-0 h-6 text-xs">On This Page</p>
+        
+        
+        
+        
+        <a href="#_1"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="2">
+            想法
+        </a>
+        
+        
+        <a href="#_2"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            能预想到的困难以及解决
+        </a>
+        
+        <a href="#_3"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            针对一些点的优化
+        </a>
+        
+        <a href="#_4"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            踩过的一些坑
+        </a>
+        
+        
+
+        
+        <a href="#_5"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="2">
+            扫描规则
+        </a>
+        
+        
+        <a href="#_6"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            反序列化参数分析
+        </a>
+        
+        <a href="#jsonp"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            JSONP寻找插件
+        </a>
+        
+        <a href="#sql"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            SQL注入判断
+        </a>
+        
+        <a href="#xss"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            XSS检测
+        </a>
+        
+        <a href="#_10"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            系统命令执行
+        </a>
+        
+        <a href="#_11"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            敏感文件扫描
+        </a>
+        
+        <a href="#js"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            JS敏感内容
+        </a>
+        
+        
+
+        
+        <a href="#_12"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="2">
+            写在第二阶段前
+        </a>
+        
+        
+        <a href="#_13"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            目前不足
+        </a>
+        
+        <a href="#_14"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            未来构想
+        </a>
+        
+        <a href="#_15"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="3">
+            开源地址
+        </a>
+        
+        
+
+        
+        
+        
+        
+
+    </div>
+    <div class="h-12"></div>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="group-has-[.section-soft]/body:bg-surface/40 3xl:fixed:bg-transparent dark:bg-transparent">
+    <div class="container-wrapper px-4 xl:px-6">
+        <div class="flex h-(--footer-height) items-center justify-between">
+            <div class="text-muted-foreground w-full text-center text-xs leading-loose sm:text-sm">
+                Built by<!-- --> w8ay &mdash;
+                provided by&nbsp;<a href="https://github.com/asiffer/mkdocs-shadcn">shadcn theme</a> 
+            </div>
+        </div>
+    </div>
+</footer>
+    </div>
+     
+
+<script src="../../search/main.js"></script>
+
+
+    
+
+    <script src="../../js/copy-button.js"></script>
+    <script>updatePygmentsStylesheet();</script>
+    
+    
+</body>
+
+</html>

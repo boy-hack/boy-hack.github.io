@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <script>
+        // for search plugin notably
+        const base_url = "https://w8ay.fun/";
+    </script>
+    <script>
+    const darkTheme = window.matchMedia("(prefers-color-scheme: dark)");
+    darkTheme.onchange = (e) => {
+        if (e.matches) {
+            document.documentElement.classList.add("dark")
+            localStorage.theme = 'dark';
+        } else {
+            document.documentElement.classList.remove("dark")
+            localStorage.removeItem("theme")
+        }
+    };
+
+    // On page load. Priotiry to lcaolStorage
+    if (localStorage.theme === "dark") {
+        document.documentElement.classList.add("dark")
+    } else if (localStorage.theme === "light") {
+        document.documentElement.classList.remove("dark")
+    } else if (darkTheme.matches) {
+        document.documentElement.classList.add("dark")
+    } else {
+        document.documentElement.classList.remove("dark")
+    }
+
+    // set the layout based on localStorage
+    document.documentElement.classList.add(localStorage.getItem("html-layout") || "layout-fixed");
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>有关w9scan的编程经验分享 - W8AY's Blog</title>
+    
+
+
+<title>有关w9scan的编程经验分享</title>
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="https://w8ay.fun/Projects/%E6%9C%89%E5%85%B3w9scan%E7%9A%84%E7%BC%96%E7%A8%8B%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/">
+
+
+<!-- Open Graph (Facebook, LinkedIn) -->
+
+<meta property="og:title" content="有关w9scan的编程经验分享">
+
+
+
+
+
+<meta property="og:url" content="https://w8ay.fun/Projects/%E6%9C%89%E5%85%B3w9scan%E7%9A%84%E7%BC%96%E7%A8%8B%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/">
+
+
+
+
+
+
+<!-- Twitter Card -->
+
+<meta name="twitter:title" content="有关w9scan的编程经验分享">
+
+
+
+
+
+
+<!-- JSON-LD Structured Data -->
+
+
+
+    <link rel="icon" href="../../img/favicon.ico">
+
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/geist.css" rel="stylesheet">
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    
+    
+
+<link id="pygments-light" rel="stylesheet"
+    href="../../css/pygments/shadcn-light.css">
+<link id="pygments-dark" rel="stylesheet"
+    href="../../css/pygments/github-dark.css"
+    media="(prefers-color-scheme: dark)">
+
+
+    
+
+    
+
+    <script src="../../js/callbacks.js"></script>
+
+    
+
+    
+
+    
+
+</head>
+
+<body
+    class="text-foreground group/body overscroll-none font-sans antialiased [--footer-height:calc(var(--spacing)*14)] [--header-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)] theme-default">
+    <div id="inner-body" class="bg-background relative z-10 flex min-h-svh flex-col">
+        <header class="bg-background sticky top-0 z-50 w-full">
+    <div class="container-wrapper 3xl:fixed:px-0 px-6">
+        <div class="3xl:fixed:container flex h-(--header-height) items-center gap-2 **:data-[slot=separator]:!h-4">
+            <button id="menu-button" data-slot="popover-trigger" onclick="onMobileMenuButtonClick(event)"
+                class="group whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground px-4 py-2 has-[&gt;svg]:px-3 extend-touch-target h-8 touch-manipulation items-center justify-start gap-2.5 !p-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 active:bg-transparent dark:hover:bg-transparent flex lg:hidden"
+                type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«Rmplb»"
+                data-state="closed">
+                <div class="relative flex h-8 w-4 items-center justify-center">
+                    <div class="relative size-4">
+                        <!-- 16px x 16px -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="0" x2="16" y1="5" y2="5"
+                                class="group-data-[state=open]:translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:rotate-45 transition-all duration-300 origin-center" />
+                            <line x1="0" x2="16" y1="11" y2="11"
+                                class="group-data-[state=open]:-translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:-rotate-45 transition-all duration-300 origin-center" />
+                        </svg>
+                    </div>
+
+                    <span class="sr-only">Toggle Menu</span>
+                </div>
+                <span class="flex h-8 items-center text-lg leading-none font-medium">Menu</span>
+            </button>
+            <a data-slot="button"
+                class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-5 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 hidden h-8 lg:flex"
+                href="https://w8ay.fun/">
+                <span class="size-8 flex flex-row justify-center items-center">
+                    
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+    class="size-5">
+    <rect width="256" height="256" fill="none"></rect>
+    <line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="32"></line>
+    <line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="32"></line>
+</svg>
+
+
+                </span>
+                
+                <h1 class="pr-2">W8AY's Blog</h1>
+                
+            </a>
+            
+            <nav class="items-center gap-0.5 hidden lg:flex">
+    
+    
+    
+    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
+        data-slot="button" href="../2024%20%E6%96%B0%E5%8D%9A%E5%AE%A2%20%E6%96%B0%E7%9F%A5%E8%AF%86%E5%BA%93/">
+        Projects
+    </a>
+    
+    
+    
+    
+    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
+        data-slot="button" href="../../Tech/AI/Chatgpt-%E5%92%8C%E9%BB%91%E5%AE%A2%E7%9F%A5%E8%AF%86%E5%BA%93%E8%81%8A%E5%A4%A9/">
+        Tech
+    </a>
+    
+    
+    
+    
+    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
+        data-slot="button" href="../../Think/2018%20%E6%9A%91%E5%81%87%E8%A6%81%E5%81%9A%E7%9A%84/">
+        Think
+    </a>
+    
+    
+</nav>
+            
+            <div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
+                <div class="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
+                    <button data-slot="dialog-trigger" onclick="onSearchBarClick(event)"
+    class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-secondary/80 px-4 py-2 has-[&gt;svg]:px-3 bg-surface text-surface-foreground/60 dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64"
+    type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«R66plb»" data-state="closed">
+    <span class="text-muted-foreground hidden lg:inline-flex">Search documentation...</span>
+    <span class="text-muted-foreground inline-flex lg:hidden">Search...</span>
+    <div class="absolute top-1.5 right-1.5 hidden gap-1 sm:flex">
+        <kbd
+            class="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&amp;_svg:not([class*='size-'])]:size-3">Ctrl</kbd><kbd
+            class="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&amp;_svg:not([class*='size-'])]:size-3 aspect-square">K</kbd>
+    </div>
+</button>
+<dialog id="search-dialog" onclick="onSearchDialogClick(event)"
+    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border overflow-hidden p-0">
+    <div class="w-lg gap-4">
+        <div class="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
+            <div data-slot="command-input-wrapper" class="flex h-9 items-center gap-2 border-b px-3"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-search size-4 shrink-0 opacity-50">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+                <input data-slot="command-input"
+                    class="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Search documentation..." cmdk-input="" autocomplete="off" autocorrect="off"
+                    spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true"
+                    aria-controls="radix-«r1t6»" aria-labelledby="radix-«r1t7»" id="radix-«r1t8»" type="text" value=""
+                    aria-activedescendant="radix-«r1th»" oninput="onInputHandler(event)">
+            </div>
+        </div>
+        <div id="mkdocs-search-results" class="max-h-[300px] overflow-y-auto overflow-x-hidden">
+            <!-- search results go there -->
+        </div>
+    </div>
+</dialog>
+<script>
+    document.removeEventListener("keydown", searchShortcutHandler);
+    document.addEventListener("keydown", searchShortcutHandler);
+</script>
+                </div>
+                <div data-orientation="vertical" role="none" data-slot="separator"
+                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px ml-2 hidden lg:block">
+                </div>
+                <button data-slot="button"
+                    class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8 3xl:flex hidden"
+                    title="Toggle layout" onclick="toggleLayout(event)">
+                    <span class="sr-only">Toggle layout</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-gallery-horizontal">
+                        <path d="M2 3v18"></path>
+                        <rect width="12" height="18" x="6" y="3" rx="2"></rect>
+                        <path d="M22 3v18"></path>
+                    </svg>
+                </button>
+                <div data-orientation="vertical" role="none" data-slot="separator"
+                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
+                </div>
+                <button data-slot="button"
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 group/toggle extend-touch-target size-8"
+                    title="Toggle theme" onclick="onThemeSwitch(event)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="size-4.5">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                        <path d="M12 3l0 18"></path>
+                        <path d="M12 9l4.65 -4.65"></path>
+                        <path d="M12 14.3l7.37 -7.37"></path>
+                        <path d="M12 19.6l8.85 -8.85"></path>
+                    </svg>
+                    <span class="sr-only">Toggle theme</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+        <main class="flex flex-1 flex-col">
+            <div class="container-wrapper flex flex-1 flex-col px-2">
+                <div data-slot="sidebar-wrapper" style="--sidebar-width: 16rem; --sidebar-width-icon: 3rem;"
+                    class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex w-full 3xl:fixed:container 3xl:fixed:px-3 min-h-min flex-1 items-start px-0 [--sidebar-width:220px] [--top-spacing:0] lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] lg:[--sidebar-width:240px] lg:[--top-spacing:calc(var(--spacing)*4)]">
+                    <div data-slot="sidebar"
+                        class="text-sidebar-foreground w-(--sidebar-width) flex-col sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] bg-transparent lg:flex">
+                        <div data-slot="sidebar-content" data-sidebar="content"
+                            class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden no-scrollbar px-2 pb-12">
+                            <div class="h-(--top-spacing) shrink-0"></div>
+                            <div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2 no-scrollbar">
+    
+
+    
+    
+    
+
+    
+
+    
+    
+
+    
+    <div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2">
+        <div data-slot="sidebar-group-content" data-sidebar="group-content" class="w-full text-sm">
+            <ul data-slot="sidebar-menu" data-sidebar="menu" class="flex w-full min-w-0 flex-col gap-0.5">
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/2024%20%E6%96%B0%E5%8D%9A%E5%AE%A2%20%E6%96%B0%E7%9F%A5%E8%AF%86%E5%BA%93/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        2024 新博客 新知识库
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E8%87%AA%E5%8A%A8%E5%8C%96%E8%8E%B7%E5%BE%97%E5%BE%AE%E8%BD%AF%E6%BC%8F%E6%B4%9E%E8%B5%8F%E9%87%91%E7%9A%84%E7%BB%8F%E5%8E%86/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        自动化获得微软漏洞赏金的经历
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/ksubdomain%E6%96%B0%E7%89%88%E5%8F%91%E5%B8%83%2C%E6%AF%94massdns%E6%9B%B4%E5%BF%AB%EF%BC%81/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Ksubdomain新版发布,比massdns更快！
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%AE%89%E5%85%A8%E5%9C%88%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E6%91%B8%E9%B1%BC%E6%8A%A5%E5%91%8A/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        安全圈微信群聊摸鱼报告
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/Hacking8%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%85%A8%E5%92%8C%E5%88%A9%E7%94%A8Hacking8%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BF%A1%E6%81%AF%E6%B5%81/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Hacking8使用大全和利用Hacking8打造自己的知识信息流
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/Hacking8%E4%BF%A1%E6%81%AF%E6%B5%81%E6%B7%BB%E5%8A%A0%E5%B9%BF%E5%91%8A%E8%AF%86%E5%88%AB%E7%9A%84%E6%97%A5%E8%AE%B0/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Hacking8信息流添加广告识别的日记
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E6%96%B0%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%87%E5%BA%93%E6%83%B3%E6%B3%95/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        新的安全文库想法
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/ksubdomain%E6%97%A0%E7%8A%B6%E6%80%81%E5%9F%9F%E5%90%8D%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Ksubdomain无状态域名爆破工具
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w13scan%202.0%20%E5%8F%91%E5%B8%83/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13scan 2.0 发布
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w13scan%E5%90%AF%E5%8A%A8logo%E5%92%8C%E6%8A%A5%E5%91%8A%E9%A1%B5%E9%9D%A2/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13scan启动logo和报告页面
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w13scan%E6%AD%A3%E5%9C%A8%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%9B%B4%E6%96%B0/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13scan正在进行的更新
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w13scan%E4%BB%8A%E5%B9%B4%E5%B0%86%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%9B%B4%E6%96%B0/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13scan今年将进行的更新
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/xss%E6%89%AB%E6%8F%8F%E5%99%A8%E6%88%90%E9%95%BF%E8%AE%B0/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Xss扫描器成长记
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%9F%BA%E4%BA%8Ejs%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E7%9A%84dom-xss%E6%89%AB%E6%8F%8F%E5%9C%A8%E7%BA%BF%E6%B5%8B%E8%AF%95/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        基于js语义分析的dom xss扫描在线测试
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%86%99%E5%9C%A8w13scan%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        写在w13scan第一阶段
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w13scan%E5%8F%91%E7%8E%B0%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%BC%8F%E6%B4%9E/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13scan发现的第二个漏洞
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E8%AE%B0W13SCAN%E6%89%AB%E6%8F%8F%E5%88%B0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%BC%8F%E6%B4%9E/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        记W13SCAN扫描到的第一个漏洞
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/W13Scan%20%E7%95%85%E6%83%B3%EF%BD%9E/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W13Scan 畅想～
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E6%9C%BA%E6%90%AD%E5%BB%BAW12Scan/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        如何在本机搭建W12Scan
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E-W12Scan-WEB%E7%AF%87/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        如何构建一个网络空间搜索引擎 W12Scan WEB篇
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/hack-requests%20v1.0%20%26%26%20%E8%AF%BBrequests%E8%AE%B0%E5%BD%95/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Hack requests v1.0 && 读requests记录
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w12scan%20%E5%9C%A8%E7%BA%BF%E9%83%A8%E7%BD%B2%E8%AE%B0%E5%BD%95/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W12scan 在线部署记录
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w12scan%20docker-compose%20%E7%BC%96%E6%8E%92%E8%B8%A9%E5%9D%91/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W12scan docker compose 编排踩坑
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w12scan%20WEB%E7%AB%AF%E5%AE%8C%E6%88%90%E4%BA%86/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        w12scan WEB端完成了
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w12scan%20%E5%BC%80%E5%8F%91%E8%BF%91%E5%86%B5/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W12scan 开发近况
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E2%9A%A1%EF%B8%8Fw12scan%E7%9A%84%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%9E%8B%E5%9B%BE%26Django%20%E8%AE%B0%E5%BD%95/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        ⚡️w12scan的前端设计原型图&Django 记录
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w12scan%20%E6%83%B3%E6%B3%95%E5%92%8Cfront-end/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W12scan 想法和front end
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/hack-requests_%E6%9B%B4%E5%A5%BD%E7%94%A8%E7%9A%84python%E7%BD%91%E7%BB%9C%E5%BA%93/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Hack requests 更好用的python网络库
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E4%B9%8B%E5%89%8D%E5%86%99%E5%86%99%E5%81%9C%E5%81%9C%E7%9A%84%E4%B8%9C%E8%A5%BF/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        记录一下之前写写停停的东西
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84WEB%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F%EF%BC%9Aw11scan%20%20%E9%A2%84%E8%A7%88/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        分布式的WEB指纹识别系统：w11scan  预览
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="true" data-sidebar="menu-button"
+        data-size="default" href="/Projects/%E6%9C%89%E5%85%B3w9scan%E7%9A%84%E7%BC%96%E7%A8%8B%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        有关w9scan的编程经验分享
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w9scan%20Bug%E5%8F%8D%E9%A6%88%E6%8F%90%E4%BA%A4/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        w9scan Bug反馈提交
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Projects/w9scan1.1~1.5/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        W9scan1.1~1.5
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+    
+
+    
+
+
+    
+</div>
+                        </div>
+                    </div>
+                    <div class="h-full w-full">
+                        <div data-slot="docs" class="flex items-stretch text-[1.05rem] sm:text-[15px] xl:w-full">
+                            <div class="flex min-w-0 flex-1 flex-col">
+                                <div class="h-(--top-spacing) shrink-0"></div>
+                                <article class=" w-full">
+    <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2">
+            <div id="page-header" class="flex items-start justify-between">
+
+                <div class="flex flex-col gap-2">
+                    <h1 class="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
+                        有关w9scan的编程经验分享
+                    </h1>
+                    
+                    <time class="flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <svg class="h-4 w-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 2v4"/>
+                            <path d="M16 2v4"/>
+                            <rect width="18" height="18" x="3" y="4" rx="2"/>
+                            <path d="M3 10h18"/>
+                        </svg>
+                        <span>2018年02月08日</span>
+                    </time>
+                    
+                </div>
+
+                <div class="flex items-center gap-2 pt-1.5">
+                    
+                    <a data-slot="button"
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 extend-touch-target size-8 shadow-none md:size-7"
+                        href="/Projects/%E6%96%B0%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%87%E5%BA%93%E6%83%B3%E6%B3%95/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="tabler-icon tabler-icon-arrow-left ">
+                            <path d="M5 12l14 0"></path>
+                            <path d="M5 12l6 6"></path>
+                            <path d="M5 12l6 -6"></path>
+                        </svg>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    
+                    
+                    <a data-slot="button"
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 extend-touch-target size-8 shadow-none md:size-7"
+                        href="/Projects/%E8%87%AA%E5%8A%A8%E5%8C%96%E8%8E%B7%E5%BE%97%E5%BE%AE%E8%BD%AF%E6%BC%8F%E6%B4%9E%E8%B5%8F%E9%87%91%E7%9A%84%E7%BB%8F%E5%8E%86/">
+                        <span class="sr-only">Next</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="tabler-icon tabler-icon-arrow-right ">
+                            <path d="M5 12l14 0"></path>
+                            <path d="M13 18l6 -6"></path>
+                            <path d="M13 6l6 6"></path>
+                        </svg>
+                    </a>
+                    
+                </div>
+            </div>
+            
+        </div>
+        
+
+    </div>
+    <div class="typography w-full flex-1 *:data-[slot=alert]:first:mt-0">
+        <p>w9scan是一款全能型的网站漏洞扫描器，借鉴了各位前辈的优秀代码。内置1200+插件可对网站进行一次规模的检测，功能包括但不限于web指纹检测、端口指纹检测、网站结构分析、各种流行的漏洞检测、爬虫以及SQL注入检测、XSS检测等等，w9scan会自动生成精美HTML格式结果报告。  </p>
+<p><strong>0x01 前言</strong></p>
+<p>在开发w9scan之前笔者已经开发过了w8scan，了解的朋友可能知道，w8scan的扫描功能并不强，所以，笔者想通过开发w9scan，这款在本地运行的扫描器来为w8scan的扫描器代码探路~。 </p>
+<p>俗话说工欲善其事必先利其器，笔者用过很多扫描器，无不为他们强大的扫描功能所折服。而笔者作为一名脚本小子，本想开车驶向远方却造起了轮子乐此不疲。仅以此文纪念w9scan的开发过程，纪念那逝去的青春...</p>
+<p>额,,, 将视线拉回到本渣作。w9scan的初期代码是模仿bugscan而写的，因为w9scan在编写的初期就是为了兼容bugscan的插件，因此做了大量兼容工作来兼容w9scan的代码。而做兼容工作必不可少要了解下bugscan的工作原理，所以笔者用自己的渣渣理解力简述下bugscan的功能流程 </p>
+<p><strong>0x02 BUGSCAN工作流程</strong></p>
+<p>首先加载服务类型为www的插件，www插件扫描的过程中同时解析服务，得到ip，加载服务类型为ip的插件继续扫描，得到端口信息加载各种端口插件对目标分析，得到CMS信息，加载对应cms的插件等等...</p>
+<p>不得不说，这是一个很棒的结构。<br />
+于是笔者在代码结构层次模仿w9scan，功能结构层次模仿bugscan，凭着脑中若干的想像！@#￥@# 制造了w9scan第一版本..</p>
+<p>对于bugscan插件的兼容:可以在 lib/code/exploit.py Exploit_run类中找到，主要通过下面几个阶段完成。</p>
+<p>1.获取plugins目录下所有的py文件，（<strong>init</strong>.py除外)，将内容存入一个字典中 </p>
+<p>2.插件代码加载函数，通过调用imp模块将字典存储的代码加载进来，返回模块对象 </p>
+<div class="codehilite"><pre><span></span><code><span class="nx">def</span><span class="w"> </span><span class="nx">_load_module</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span><span class="nx">chunk</span><span class="p">,</span><span class="nx">name</span><span class="o">=</span><span class="s1">&#39;&lt;w9scan&gt;&#39;</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">try</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">pluginObj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">imp</span><span class="p">.</span><span class="nx">new_module</span><span class="p">(</span><span class="nx">str</span><span class="p">(</span><span class="nx">name</span><span class="p">))</span>
+<span class="w">            </span><span class="nx">exec</span><span class="w"> </span><span class="nx">chunk</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">pluginObj</span><span class="p">.</span><span class="nx">__dict__</span>
+<span class="w">        </span><span class="nx">except</span><span class="w"> </span><span class="nx">Exception</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">err_info</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">raise</span><span class="w"> </span><span class="nx">LoadModuleException</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">pluginObj</span>
+</code></pre></div>
+
+<p>3.为返回的模块类加上内置的API（就是一些bugscan常用的内置API，如curl hackhttp之类） </p>
+<p><img alt="2.png" src="../assert/fb5c1518085507.png" /></p>
+<p>4.一切就绪，然后根据bugscan API说明，bugscan插件需定义两个函数 assign为验证 audit为执行函数。所有接下来来调用这两个函数了。</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">pluginObj_tuple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pluginObj</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">service</span><span class="p">,</span><span class="w"> </span><span class="nx">url</span><span class="p">)</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="nx">isinstance</span><span class="p">(</span><span class="nx">pluginObj_tuple</span><span class="p">,</span><span class="w"> </span><span class="nx">tuple</span><span class="p">)</span><span class="o">:</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="nx">判断是否是元组</span>
+<span class="w">                    </span><span class="k">continue</span>
+<span class="w">                </span><span class="nx">bool_value</span><span class="p">,</span><span class="w"> </span><span class="nx">agrs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">pluginObj_tuple</span><span class="p">[</span><span class="mf">0</span><span class="p">],</span><span class="w"> </span><span class="nx">pluginObj_tuple</span><span class="p">[</span><span class="mf">1</span><span class="p">]</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">bool_value</span><span class="o">:</span>
+<span class="w">       </span><span class="nx">pluginObj</span><span class="p">.</span><span class="nx">audit</span><span class="p">(</span><span class="nx">agrs</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>0x03 CMS</strong><strong>识别</strong></p>
+<p>目前CMS大多数都是依靠指纹，看了很多依靠机器识别来验证webshell的列子，笔者也在学习如何用机器学习来识别CMS。 </p>
+<p>W9scan的CMS识别的指纹库以及代码都是bugscan的，里面有一些有趣的技巧，分享一下。CMS指纹文件在 lib/utils/cmsdata.py </p>
+<p><img alt="33.png" src="../assert/9c861518085537.png" />可以看到主要是根据MD5以及关键字来识别的。笔者之前写的CMS识别都会用个字段来表示识别方式，这个似乎没有，来看看有什么奥秘？</p>
+<p>来到 plugins/www/whatcms.py</p>
+<div class="codehilite"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nx">re</span><span class="p">,</span><span class="nx">urlparse</span>
+<span class="kr">from</span><span class="w"> </span><span class="nx">lib</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">cmsdata</span><span class="w"> </span><span class="k">import</span><span class="w"> </span><span class="nx">cms_dict</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">hashlib</span>
+
+<span class="nx">def</span><span class="w"> </span><span class="nx">getMD5</span><span class="p">(</span><span class="nx">password</span><span class="p">)</span><span class="o">:</span>
+<span class="w">    </span><span class="nx">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">hashlib</span><span class="p">.</span><span class="nx">md5</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">m</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">password</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">m</span><span class="p">.</span><span class="nx">hexdigest</span><span class="p">()</span>
+
+<span class="nx">def</span><span class="w"> </span><span class="nx">makeurl</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span><span class="o">:</span>
+<span class="w">    </span><span class="nx">prox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://&quot;</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nx">url</span><span class="p">.</span><span class="nx">startswith</span><span class="p">(</span><span class="s2">&quot;https://&quot;</span><span class="p">))</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">prox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;https://&quot;</span>
+<span class="w">    </span><span class="nx">url_info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">urlparse</span><span class="p">.</span><span class="nx">urlparse</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">prox</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">url_info</span><span class="p">.</span><span class="nx">netloc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;/&quot;</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">url</span>
+
+<span class="nx">def</span><span class="w"> </span><span class="nx">isMatching</span><span class="p">(</span><span class="nx">f_path</span><span class="p">,</span><span class="w"> </span><span class="nx">cms_name</span><span class="p">,</span><span class="w"> </span><span class="nx">sign</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">code</span><span class="p">,</span><span class="w"> </span><span class="nx">host</span><span class="p">,</span><span class="w"> </span><span class="nx">head</span><span class="p">)</span><span class="o">:</span>
+<span class="w">    </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">False</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">f_path</span><span class="p">.</span><span class="nx">endswith</span><span class="p">(</span><span class="s2">&quot;.gif&quot;</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">sign</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getMD5</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">sign</span>
+<span class="w">        </span><span class="k">else</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">startswith</span><span class="p">(</span><span class="s2">&quot;GIF89a&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">elif</span><span class="w"> </span><span class="nx">f_path</span><span class="p">.</span><span class="nx">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">sign</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getMD5</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">sign</span>
+<span class="w">        </span><span class="k">else</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">startswith</span><span class="p">(</span><span class="s2">&quot;\x89PNG\x0d\x0a\x1a\x0a&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">elif</span><span class="w"> </span><span class="nx">f_path</span><span class="p">.</span><span class="nx">endswith</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">sign</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getMD5</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">sign</span>
+<span class="w">        </span><span class="k">else</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">startswith</span><span class="p">(</span><span class="s2">&quot;\xff\xd8\xff\xe0\x00\x10JFIF&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">elif</span><span class="w"> </span><span class="nx">f_path</span><span class="p">.</span><span class="nx">endswith</span><span class="p">(</span><span class="s2">&quot;.ico&quot;</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">sign</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getMD5</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">sign</span>
+<span class="w">        </span><span class="k">else</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">startswith</span><span class="p">(</span><span class="s2">&quot;\x00\x00\x00&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">elif</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">200</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">sign</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">sign</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="w"> </span><span class="nx">or</span><span class="w"> </span><span class="nx">head</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">sign</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">True</span>
+
+<span class="w">    </span><span class="nx">elif</span><span class="w"> </span><span class="nx">sign</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">head</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">sign</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">True</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">isMatch</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">task_push</span><span class="p">(</span><span class="nx">cms_name</span><span class="p">,</span><span class="w"> </span><span class="nx">host</span><span class="p">,</span><span class="w"> </span><span class="nx">target</span><span class="o">=</span><span class="nx">util</span><span class="p">.</span><span class="nx">get_url_host</span><span class="p">(</span><span class="nx">host</span><span class="p">))</span>
+<span class="w">        </span><span class="nx">security_note</span><span class="p">(</span><span class="nx">cms_name</span><span class="p">,</span><span class="s1">&#39;whatcms&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">#print</span><span class="w"> </span><span class="s2">&quot;%s %s&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">(</span><span class="nx">cms_name</span><span class="p">,</span><span class="w"> </span><span class="nx">host</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">True</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">False</span>
+
+<span class="nx">def</span><span class="w"> </span><span class="nx">assign</span><span class="p">(</span><span class="nx">service</span><span class="p">,</span><span class="w"> </span><span class="nx">arg</span><span class="p">)</span><span class="o">:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">service</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;www&quot;</span><span class="o">:</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">True</span><span class="p">,</span><span class="nx">makeurl</span><span class="p">(</span><span class="nx">arg</span><span class="p">)</span>
+
+<span class="nx">def</span><span class="w"> </span><span class="nx">audit</span><span class="p">(</span><span class="nx">arg</span><span class="p">)</span><span class="o">:</span>
+<span class="w">    </span><span class="nx">cms_cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="nx">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">_cache</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">url</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">cache</span><span class="o">:</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">cache</span><span class="p">[</span><span class="nx">url</span><span class="p">]</span>
+<span class="w">        </span><span class="k">else</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">status_code</span><span class="p">,</span><span class="w"> </span><span class="nx">header</span><span class="p">,</span><span class="w"> </span><span class="nx">html_body</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="p">,</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">curl</span><span class="p">.</span><span class="nx">curl2</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">status_code</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">or</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="nx">html_body</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">html_body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+
+<span class="w">            </span><span class="nx">cache</span><span class="p">[</span><span class="nx">url</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">status_code</span><span class="p">,</span><span class="w"> </span><span class="nx">header</span><span class="p">,</span><span class="w"> </span><span class="nx">html_body</span><span class="p">)</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">status_code</span><span class="p">,</span><span class="w"> </span><span class="nx">header</span><span class="p">,</span><span class="w"> </span><span class="nx">html_body</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">cmsname</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">cms_dict</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">cms_hash_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cms_dict</span><span class="p">[</span><span class="nx">cmsname</span><span class="p">]</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">cms_hash</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">cms_hash_list</span><span class="o">:</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">isinstance</span><span class="p">(</span><span class="nx">cms_hash</span><span class="p">,</span><span class="w"> </span><span class="nx">tuple</span><span class="p">)</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">f_path</span><span class="p">,</span><span class="w"> </span><span class="nx">sign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cms_hash</span>
+<span class="w">            </span><span class="k">else</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">f_path</span><span class="p">,</span><span class="w"> </span><span class="nx">sign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cms_hash</span><span class="p">,</span><span class="w"> </span><span class="nx">None</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="nx">isinstance</span><span class="p">(</span><span class="nx">f_path</span><span class="p">,</span><span class="w"> </span><span class="nx">list</span><span class="p">)</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">f_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nx">f_path</span><span class="p">]</span>
+
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="nx">file_path</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">f_path</span><span class="o">:</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="nx">file_path</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">cms_cache</span><span class="o">:</span>
+<span class="w">                    </span><span class="nx">cms_cache</span><span class="p">[</span><span class="nx">file_path</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">                </span><span class="nx">cms_cache</span><span class="p">[</span><span class="nx">file_path</span><span class="p">].</span><span class="nx">append</span><span class="p">((</span><span class="nx">cmsname</span><span class="p">,</span><span class="w"> </span><span class="nx">sign</span><span class="p">))</span>
+
+<span class="w">    </span><span class="nx">cms_key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cms_cache</span><span class="p">.</span><span class="nx">keys</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">cms_key</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="nx">key</span><span class="o">=</span><span class="nx">len</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">False</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">f_path</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">cms_key</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">isMatch</span><span class="o">:</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">cms_name</span><span class="p">,</span><span class="w"> </span><span class="nx">sign</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">cms_cache</span><span class="p">[</span><span class="nx">f_path</span><span class="p">]</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">code</span><span class="p">,</span><span class="w"> </span><span class="nx">head</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">_cache</span><span class="p">(</span><span class="nx">arg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">f_path</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="nx">isMatching</span><span class="p">(</span><span class="nx">f_path</span><span class="p">,</span><span class="w"> </span><span class="nx">cms_name</span><span class="p">,</span><span class="w"> </span><span class="nx">sign</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">code</span><span class="p">,</span><span class="w"> </span><span class="nx">arg</span><span class="p">,</span><span class="w"> </span><span class="nx">head</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">isMatch</span><span class="o">:</span>
+<span class="w">                </span><span class="k">break</span>
+</code></pre></div>
+
+<p>从 audit函数看起，第一个for循环是给指纹排序</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nx">cmsname</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">cms_dict</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">cms_hash_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cms_dict</span><span class="p">[</span><span class="nx">cmsname</span><span class="p">]</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">cms_hash</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">cms_hash_list</span><span class="o">:</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">isinstance</span><span class="p">(</span><span class="nx">cms_hash</span><span class="p">,</span><span class="w"> </span><span class="nx">tuple</span><span class="p">)</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">f_path</span><span class="p">,</span><span class="w"> </span><span class="nx">sign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cms_hash</span>
+<span class="w">            </span><span class="k">else</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">f_path</span><span class="p">,</span><span class="w"> </span><span class="nx">sign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cms_hash</span><span class="p">,</span><span class="w"> </span><span class="nx">None</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="nx">isinstance</span><span class="p">(</span><span class="nx">f_path</span><span class="p">,</span><span class="w"> </span><span class="nx">list</span><span class="p">)</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">f_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nx">f_path</span><span class="p">]</span>
+
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="nx">file_path</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">f_path</span><span class="o">:</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="nx">file_path</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">cms_cache</span><span class="o">:</span>
+<span class="w">                    </span><span class="nx">cms_cache</span><span class="p">[</span><span class="nx">file_path</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">                </span><span class="nx">cms_cache</span><span class="p">[</span><span class="nx">file_path</span><span class="p">].</span><span class="nx">append</span><span class="p">((</span><span class="nx">cmsname</span><span class="p">,</span><span class="w"> </span><span class="nx">sign</span><span class="p">))</span>
+</code></pre></div>
+
+<p>为了减少访问网页的次数，cms识别即最好访问一次路径后，同时找出相同路径下的cms的特征，例如访问一次 robots.txt 会有很多cms的指纹路径是这个。 </p>
+<p>最后在isMatch() 函数下找到我们问题的答案~</p>
+<div class="codehilite"><pre><span></span><code><span class="nx">def</span><span class="w"> </span><span class="nx">isMatching</span><span class="p">(</span><span class="nx">f_path</span><span class="p">,</span><span class="w"> </span><span class="nx">cms_name</span><span class="p">,</span><span class="w"> </span><span class="nx">sign</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">code</span><span class="p">,</span><span class="w"> </span><span class="nx">host</span><span class="p">,</span><span class="w"> </span><span class="nx">head</span><span class="p">)</span><span class="o">:</span>
+<span class="w">    </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">False</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">f_path</span><span class="p">.</span><span class="nx">endswith</span><span class="p">(</span><span class="s2">&quot;.gif&quot;</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">sign</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getMD5</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">sign</span>
+<span class="w">        </span><span class="k">else</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">startswith</span><span class="p">(</span><span class="s2">&quot;GIF89a&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">elif</span><span class="w"> </span><span class="nx">f_path</span><span class="p">.</span><span class="nx">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">sign</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getMD5</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">sign</span>
+<span class="w">        </span><span class="k">else</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">startswith</span><span class="p">(</span><span class="s2">&quot;\x89PNG\x0d\x0a\x1a\x0a&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">elif</span><span class="w"> </span><span class="nx">f_path</span><span class="p">.</span><span class="nx">endswith</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">sign</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getMD5</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">sign</span>
+<span class="w">        </span><span class="k">else</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">startswith</span><span class="p">(</span><span class="s2">&quot;\xff\xd8\xff\xe0\x00\x10JFIF&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">elif</span><span class="w"> </span><span class="nx">f_path</span><span class="p">.</span><span class="nx">endswith</span><span class="p">(</span><span class="s2">&quot;.ico&quot;</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">sign</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getMD5</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">sign</span>
+<span class="w">        </span><span class="k">else</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">startswith</span><span class="p">(</span><span class="s2">&quot;\x00\x00\x00&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">elif</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">200</span><span class="o">:</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">sign</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">sign</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="w"> </span><span class="nx">or</span><span class="w"> </span><span class="nx">head</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">sign</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">True</span>
+
+<span class="w">    </span><span class="nx">elif</span><span class="w"> </span><span class="nx">sign</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">head</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">sign</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">-</span><span class="mf">1</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">isMatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">True</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">isMatch</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">task_push</span><span class="p">(</span><span class="nx">cms_name</span><span class="p">,</span><span class="w"> </span><span class="nx">host</span><span class="p">,</span><span class="w"> </span><span class="nx">target</span><span class="o">=</span><span class="nx">util</span><span class="p">.</span><span class="nx">get_url_host</span><span class="p">(</span><span class="nx">host</span><span class="p">))</span>
+<span class="w">        </span><span class="nx">security_note</span><span class="p">(</span><span class="nx">cms_name</span><span class="p">,</span><span class="s1">&#39;whatcms&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">#print</span><span class="w"> </span><span class="s2">&quot;%s %s&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">(</span><span class="nx">cms_name</span><span class="p">,</span><span class="w"> </span><span class="nx">host</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">True</span>
+
+<span class="k">return</span><span class="w"> </span><span class="nx">False</span>
+</code></pre></div>
+
+<p>可以看到，是通过对访问路径的后缀做判断，并且对读取的图片前几位做校验。这种判断模式比一些暴力用指纹枚举的判断模式在效率方面应该是更好的。 </p>
+<p>最后，如果匹配成功，会像我们上面说到的一样，调用相应CMS的相应插件 </p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">isMatch</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">task_push</span><span class="p">(</span><span class="nx">cms_name</span><span class="p">,</span><span class="w"> </span><span class="nx">host</span><span class="p">,</span><span class="w"> </span><span class="nx">target</span><span class="o">=</span><span class="nx">util</span><span class="p">.</span><span class="nx">get_url_host</span><span class="p">(</span><span class="nx">host</span><span class="p">))</span>
+<span class="w">        </span><span class="nx">security_note</span><span class="p">(</span><span class="nx">cms_name</span><span class="p">,</span><span class="s1">&#39;whatcms&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">#print</span><span class="w"> </span><span class="s2">&quot;%s %s&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">(</span><span class="nx">cms_name</span><span class="p">,</span><span class="w"> </span><span class="nx">host</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">True</span>
+</code></pre></div>
+
+<p>在我们exploit_run 类的内部实现 task_push 的功能就好啦~</p>
+<p><strong>0x04 整理插件目录</strong></p>
+<p>刚开始笔者接触到的插件是这样的</p>
+<p><img alt="66.png" src="../assert/99581518085580.png" /></p>
+<p>这种对查找插件和添加都不太方便，于是笔者一个一个的将它们整理到了目录，变成了这个样子。这里面的辛苦。。！</p>
+<p><img alt="77.png" src="../assert/4aa31518085608.png" /></p>
+<p>其实整理也不辛苦拉，像笔者这么懒的人怎么会一个个手动干呢，一个正则 一个移动文件 一个自动创建文件夹就把这些搞定了</p>
+<p>为什么要放出来说呢？因为笔者认为这是笔者用程序干过的最省力的事情了！QAQ</p>
+<p><strong>0x05 子域名查询</strong></p>
+<p>子域名查询是比较头疼的东西，因为对于w9scan,不想太依赖第三方庞大的库支持，重写DNS协议一个觉得麻烦而且重复造轮子没有意义，参考github上别人的子域名工具都太庞大了，短小精悍的不知道有木有。最后…用下面这十行的代码搞定了 </p>
+<div class="codehilite"><pre><span></span><code><span class="k">try</span><span class="o">:</span>
+<span class="w">    </span><span class="nx">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">socket</span><span class="p">.</span><span class="nx">gethostbyname_ex</span><span class="p">(</span><span class="nx">hostnames</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">security_info</span><span class="p">(</span><span class="nx">str</span><span class="p">(</span><span class="nx">l</span><span class="p">),</span><span class="s1">&#39;subdomain&#39;</span><span class="p">)</span>
+<span class="nx">except</span><span class="w"> </span><span class="nx">socket</span><span class="p">.</span><span class="nx">error</span><span class="o">:</span>
+<span class="w">    </span><span class="nx">pass</span>
+</code></pre></div>
+
+<p>O(∩_∩)O哈哈~，其实通过socket.gethostname就可以完成子域名爆破的工作，为什么要用自己重写dns协议呢。</p>
+<p><strong>0x06 集成</strong><strong>Buildwith</strong></p>
+<p>这是一个识别网站框架，网站信息的脚本，当初认识它是在一本爬虫的书上，后来发现原来调用的是Wappalyzer的脚本，但是Buildwith更短小精悍，一个py文件就写好了全部的功能，简直深得我意。于是集成之~</p>
+<p>大家可以自行 pip install buildwith 安装这个库试试，非常强大！</p>
+<p><img alt="44.png" src="../assert/8b551518085632.png" /></p>
+<p>当然如果大家下载w9scan是不需要安装这个的，因为我已经将他集成上去了！！ </p>
+<p>原理其实也非常简单，就是这么多的指纹！！！</p>
+<p><img alt="55.png" src="../assert/83221518085650.png" /></p>
+<p>其实，一款好用的扫描器无外乎需要在速度和精准度之间权衡，精准度需要大量的插件做支撑，而这些插件，也都是一些特定的指纹访问特定的路径，但此时速度方面就得不到提高。似乎陷入一个二者不可得兼的状况。</p>
+<p><strong>0x07 线程问题</strong></p>
+<p>对于像扫描器这样的IO密集型作业，用线程似乎可以大大提升速度。当然，用多进程联动的方式也行，这应该是w9scan后面研究的对象，现在说下w9scan怎样控制线程的。 </p>
+<p>起初，用了网上常用的ThreadPool模块，但是不知怎的，经常会出现python运行已停止的提示（Windows上）。。，而且夹杂一大堆不知道有什么用的模块。上回说到，笔者并不洗用那种一大堆文件的模块，不利于集成就算了，还ctrl+c暂停的时候卡住了！是可忍孰不可忍，于是笔者立马操起菜刀，小心翼翼的在Google上搜索答案。</p>
+<p>以笔者的渣渣水平，十个答案里面只能看懂3个，转而想想看代码好了。之前笔者用POC-T这款软件的时候觉得挺稳，于是乎拉它开刀，还真开对了！</p>
+<p>笔者模仿<a href="https://github.com/Xyntax/POC-T/blob/2.0/lib/controller/engine.py">POC-T</a>的线程引擎不仅解决了程序异常，也解决了ctrl+c阻塞的问题。请听我慢慢道来。</p>
+<p>程序运行异常可能在于ThreadPool模块中有不少自动调节线程的程序，经过笔者多次的测试，每次出现异常时加载的插件并不相同，可以排除是笔者插件代码问题导致。实际上笔者的程序不需要这么高端的线程池，仿照POC-T，笔者写了一个简陋，但是好用的线程池。</p>
+<div class="codehilite"><pre><span></span><code><span class="err">#</span><span class="w"> </span><span class="nx">coding</span><span class="o">:</span><span class="nx">utf</span><span class="o">-</span><span class="mf">8</span>
+<span class="err">#</span><span class="w"> </span><span class="nx">模拟一个</span><span class="w"> </span><span class="nx">线程池</span><span class="err">，</span><span class="nx">可以向里面添加任务</span><span class="err">，</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nx">threading</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">time</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">traceback</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">Queue</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">random</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nx">w8_threadpool</span><span class="o">:</span>
+
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span><span class="nx">threadnum</span><span class="p">,</span><span class="nx">func_scan</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">thread_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">self</span><span class="p">.</span><span class="nx">thread_nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">threadnum</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">scan_count_lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">threading</span><span class="p">.</span><span class="nx">Lock</span><span class="p">()</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">thread_count_lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">threading</span><span class="p">.</span><span class="nx">Lock</span><span class="p">()</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">load_lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">threading</span><span class="p">.</span><span class="nx">Lock</span><span class="p">()</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">scan_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">isContinue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">True</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">func_scan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">func_scan</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Queue</span><span class="p">.</span><span class="nx">Queue</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">push</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span><span class="nx">payload</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">queue</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">changeScanCount</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span><span class="nx">num</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">scan_count_lock</span><span class="p">.</span><span class="nx">acquire</span><span class="p">()</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">scan_count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">num</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">scan_count_lock</span><span class="p">.</span><span class="nx">release</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">changeThreadCount</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span><span class="nx">num</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">thread_count_lock</span><span class="p">.</span><span class="nx">acquire</span><span class="p">()</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">thread_count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">num</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">thread_count_lock</span><span class="p">.</span><span class="nx">release</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">run</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">range</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">thread_nums</span><span class="p">)</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">threading</span><span class="p">.</span><span class="nx">Thread</span><span class="p">(</span><span class="nx">target</span><span class="o">=</span><span class="nx">self</span><span class="p">.</span><span class="nx">scan</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">=</span><span class="nx">str</span><span class="p">(</span><span class="nx">i</span><span class="p">))</span>
+<span class="w">            </span><span class="nx">t</span><span class="p">.</span><span class="nx">setDaemon</span><span class="p">(</span><span class="nx">True</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">t</span><span class="p">.</span><span class="nx">start</span><span class="p">()</span>
+<span class="w">            </span><span class="err">#</span><span class="w"> </span><span class="nx">It</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="nx">quit</span><span class="w"> </span><span class="kd">with</span><span class="w"> </span><span class="nx">Ctrl</span><span class="o">-</span><span class="nx">C</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="mf">1</span><span class="o">:</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">self</span><span class="p">.</span><span class="nx">thread_count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">self</span><span class="p">.</span><span class="nx">isContinue</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">time</span><span class="p">.</span><span class="nx">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="w">            </span><span class="k">else</span><span class="o">:</span>
+<span class="w">                </span><span class="k">break</span>
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">stop</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">load_lock</span><span class="p">.</span><span class="nx">acquire</span><span class="p">()</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">isContinue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">False</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">load_lock</span><span class="p">.</span><span class="nx">release</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">scan</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="mf">1</span><span class="o">:</span>
+<span class="w">            </span><span class="nx">self</span><span class="p">.</span><span class="nx">load_lock</span><span class="p">.</span><span class="nx">acquire</span><span class="p">()</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">self</span><span class="p">.</span><span class="nx">queue</span><span class="p">.</span><span class="nx">qsize</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">self</span><span class="p">.</span><span class="nx">isContinue</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">self</span><span class="p">.</span><span class="nx">queue</span><span class="p">.</span><span class="nx">get</span><span class="p">()</span>
+
+<span class="w">                </span><span class="nx">self</span><span class="p">.</span><span class="nx">load_lock</span><span class="p">.</span><span class="nx">release</span><span class="p">()</span>
+<span class="w">            </span><span class="k">else</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">self</span><span class="p">.</span><span class="nx">load_lock</span><span class="p">.</span><span class="nx">release</span><span class="p">()</span>
+<span class="w">                </span><span class="k">break</span>
+<span class="w">            </span><span class="k">try</span><span class="o">:</span>
+<span class="w">                </span><span class="err">#</span><span class="w"> </span><span class="nx">POC在执行时报错如果不被处理</span><span class="err">，</span><span class="nx">线程框架会停止并退出</span>
+<span class="w">                </span><span class="nx">self</span><span class="p">.</span><span class="nx">func_scan</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">except</span><span class="w"> </span><span class="nx">KeyboardInterrupt</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">self</span><span class="p">.</span><span class="nx">isContinue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">False</span>
+<span class="w">                </span><span class="nx">raise</span><span class="w"> </span><span class="nx">KeyboardInterrupt</span>
+<span class="w">            </span><span class="nx">except</span><span class="w"> </span><span class="nx">Exception</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">errmsg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">traceback</span><span class="p">.</span><span class="nx">format_exc</span><span class="p">()</span>
+<span class="w">                </span><span class="nx">self</span><span class="p">.</span><span class="nx">isContinue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">False</span>
+
+<span class="w">            </span><span class="nx">self</span><span class="p">.</span><span class="nx">changeScanCount</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">self</span><span class="p">.</span><span class="nx">changeThreadCount</span><span class="p">(</span><span class="o">-</span><span class="mf">1</span><span class="p">)</span>
+
+
+<span class="k">if</span><span class="w"> </span><span class="nx">__name__</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;__main__&#39;</span><span class="o">:</span>
+<span class="w">    </span><span class="nx">def</span><span class="w"> </span><span class="nx">calucator</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">random</span><span class="p">.</span><span class="nx">randint</span><span class="p">(</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">100</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">num</span>
+<span class="w">        </span><span class="nx">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">u</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mf">6</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0</span><span class="p">)</span><span class="o">:</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="nx">x</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">range</span><span class="p">(</span><span class="mf">5</span><span class="p">)</span><span class="o">:</span>
+<span class="w">                </span><span class="nx">print</span><span class="w"> </span><span class="s2">&quot;new thread&quot;</span>
+<span class="w">                </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">w8_threadpool</span><span class="p">(</span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="nx">calucator</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">range</span><span class="p">(</span><span class="mf">100000</span><span class="p">)</span><span class="o">:</span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">p</span><span class="p">.</span><span class="nx">run</span><span class="p">()</span>
+</code></pre></div>
+
+<p>这么一个简陋的线程池对于笔者的w9scan来说足够了（其实笔者的要求也不高是不是）</p>
+<p>Ctrl+c阻塞主线程可能是join()这个方法阻塞了，解决办法就是不用这个方法，用while循环和time.sleep功能达到一个模拟join()的作用。 </p>
+<p><strong>0x08 后记</strong></p>
+<p>我觉得，一些成熟的扫描器在一些常规扫描方式达到登峰造极的地步，以至于在想用这些常规方法扫描漏洞，效果可能不太好。想要有效挖掘一个网站的漏洞，应该从那些不起眼的地方着力，比如w9scan扫描器中有git svm泄露路径寻找，会基于域名的字典来查找备份文件，以及根据爬虫寻找出的文件逐个进行一句话密码破解等等…… </p>
+<p>为什么写此文呢？因为笔者觉得开发过程很无聊，每次发布的版本都是更新了什么修复了什么，如果能加些佐料，加以记录像武侠小说一样，又能分享经验，何乐而不为呀！</p>
+    </div>
+</article>
+                                <div class="mx-auto flex flex-wrap h-16 w-full max-w-2xl items-center gap-2 px-4 md:px-0">
+    
+    <a data-slot="button"
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 shadow-none"
+        href="/Projects/%E6%96%B0%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%87%E5%BA%93%E6%83%B3%E6%B3%95/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="tabler-icon tabler-icon-arrow-left ">
+            <path d="M5 12l14 0"></path>
+            <path d="M5 12l6 6"></path>
+            <path d="M5 12l6 -6"></path>
+        </svg>
+        新的安全文库想法
+    </a>
+    
+    
+    <a data-slot="button"
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 ml-auto shadow-none"
+        href="/Projects/%E8%87%AA%E5%8A%A8%E5%8C%96%E8%8E%B7%E5%BE%97%E5%BE%AE%E8%BD%AF%E6%BC%8F%E6%B4%9E%E8%B5%8F%E9%87%91%E7%9A%84%E7%BB%8F%E5%8E%86/">
+        自动化获得微软漏洞赏金的经历
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="tabler-icon tabler-icon-arrow-right ">
+            <path d="M5 12l14 0"></path>
+            <path d="M13 18l6 -6"></path>
+            <path d="M13 6l6 6"></path>
+        </svg>
+    </a>
+    
+</div>
+                                <dialog id="bottom-sidebar" onclick="onBottomSidebarDialogClick(event)" class="bg-transparent"
+    style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 58px); min-width: max-content; --radix-popper-transform-origin: 0% 0px; will-change: transform; z-index: 50; --radix-popper-available-width: 504px; --radix-popper-available-height: 857px; --radix-popper-anchor-width: 72.94999694824219px; --radix-popper-anchor-height: 32px;">
+    <div data-side="bottom" data-align="start" data-state="open" role="dialog" data-slot="popover-content"
+        class="text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-popover-content-transform-origin) border outline-hidden bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto rounded-none border-none p-0 shadow-none backdrop-blur duration-100"
+        style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
+        tabindex="-1">
+        <div class="flex flex-col gap-12 overflow-auto px-6 py-6">
+            
+            
+            
+
+            
+            <div class="flex flex-col gap-4">
+                <div class="text-muted-foreground text-sm font-medium">Menu</div>
+                <div class="flex flex-col gap-3">
+                    
+                    <a class="text-2xl font-medium" href="../../links/">
+                        
+                        Links
+                        
+                    </a>
+                    
+                    <a class="text-2xl font-medium" href="../../%E5%BE%AE%E8%AF%AD/">
+                        
+                        微语
+                        
+                    </a>
+                    
+                    <a class="text-2xl font-medium" href="../..">
+                        
+                        Home
+                        
+                    </a>
+                    
+                </div>
+            </div>
+            
+
+            
+            <div class="flex flex-col gap-8">
+                
+                <div class="flex flex-col gap-4">
+                    <div class="text-muted-foreground text-sm font-medium">Projects</div>
+                    
+                    <div class="flex flex-col gap-3">
+                        
+                        <a class="text-2xl font-medium" href="../w9scan1.1~1.5/">
+                            
+                            W9scan1.1~1.5
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w9scan%20Bug%E5%8F%8D%E9%A6%88%E6%8F%90%E4%BA%A4/">
+                            
+                            w9scan Bug反馈提交
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="./">
+                            
+                            有关w9scan的编程经验分享
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84WEB%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F%EF%BC%9Aw11scan%20%20%E9%A2%84%E8%A7%88/">
+                            
+                            分布式的WEB指纹识别系统：w11scan  预览
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E4%B9%8B%E5%89%8D%E5%86%99%E5%86%99%E5%81%9C%E5%81%9C%E7%9A%84%E4%B8%9C%E8%A5%BF/">
+                            
+                            记录一下之前写写停停的东西
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../hack-requests_%E6%9B%B4%E5%A5%BD%E7%94%A8%E7%9A%84python%E7%BD%91%E7%BB%9C%E5%BA%93/">
+                            
+                            Hack requests 更好用的python网络库
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w12scan%20%E6%83%B3%E6%B3%95%E5%92%8Cfront-end/">
+                            
+                            W12scan 想法和front end
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E2%9A%A1%EF%B8%8Fw12scan%E7%9A%84%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%9E%8B%E5%9B%BE%26Django%20%E8%AE%B0%E5%BD%95/">
+                            
+                            ⚡️w12scan的前端设计原型图&Django 记录
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w12scan%20%E5%BC%80%E5%8F%91%E8%BF%91%E5%86%B5/">
+                            
+                            W12scan 开发近况
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w12scan%20WEB%E7%AB%AF%E5%AE%8C%E6%88%90%E4%BA%86/">
+                            
+                            w12scan WEB端完成了
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w12scan%20docker-compose%20%E7%BC%96%E6%8E%92%E8%B8%A9%E5%9D%91/">
+                            
+                            W12scan docker compose 编排踩坑
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w12scan%20%E5%9C%A8%E7%BA%BF%E9%83%A8%E7%BD%B2%E8%AE%B0%E5%BD%95/">
+                            
+                            W12scan 在线部署记录
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../hack-requests%20v1.0%20%26%26%20%E8%AF%BBrequests%E8%AE%B0%E5%BD%95/">
+                            
+                            Hack requests v1.0 && 读requests记录
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E-W12Scan-WEB%E7%AF%87/">
+                            
+                            如何构建一个网络空间搜索引擎 W12Scan WEB篇
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E6%9C%BA%E6%90%AD%E5%BB%BAW12Scan/">
+                            
+                            如何在本机搭建W12Scan
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../W13Scan%20%E7%95%85%E6%83%B3%EF%BD%9E/">
+                            
+                            W13Scan 畅想～
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E8%AE%B0W13SCAN%E6%89%AB%E6%8F%8F%E5%88%B0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%BC%8F%E6%B4%9E/">
+                            
+                            记W13SCAN扫描到的第一个漏洞
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w13scan%E5%8F%91%E7%8E%B0%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%BC%8F%E6%B4%9E/">
+                            
+                            W13scan发现的第二个漏洞
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%86%99%E5%9C%A8w13scan%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/">
+                            
+                            写在w13scan第一阶段
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%9F%BA%E4%BA%8Ejs%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E7%9A%84dom-xss%E6%89%AB%E6%8F%8F%E5%9C%A8%E7%BA%BF%E6%B5%8B%E8%AF%95/">
+                            
+                            基于js语义分析的dom xss扫描在线测试
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../xss%E6%89%AB%E6%8F%8F%E5%99%A8%E6%88%90%E9%95%BF%E8%AE%B0/">
+                            
+                            Xss扫描器成长记
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w13scan%E4%BB%8A%E5%B9%B4%E5%B0%86%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%9B%B4%E6%96%B0/">
+                            
+                            W13scan今年将进行的更新
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w13scan%E6%AD%A3%E5%9C%A8%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%9B%B4%E6%96%B0/">
+                            
+                            W13scan正在进行的更新
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w13scan%E5%90%AF%E5%8A%A8logo%E5%92%8C%E6%8A%A5%E5%91%8A%E9%A1%B5%E9%9D%A2/">
+                            
+                            W13scan启动logo和报告页面
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../w13scan%202.0%20%E5%8F%91%E5%B8%83/">
+                            
+                            W13scan 2.0 发布
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../ksubdomain%E6%97%A0%E7%8A%B6%E6%80%81%E5%9F%9F%E5%90%8D%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7/">
+                            
+                            Ksubdomain无状态域名爆破工具
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E6%96%B0%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%87%E5%BA%93%E6%83%B3%E6%B3%95/">
+                            
+                            新的安全文库想法
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../Hacking8%E4%BF%A1%E6%81%AF%E6%B5%81%E6%B7%BB%E5%8A%A0%E5%B9%BF%E5%91%8A%E8%AF%86%E5%88%AB%E7%9A%84%E6%97%A5%E8%AE%B0/">
+                            
+                            Hacking8信息流添加广告识别的日记
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../Hacking8%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%85%A8%E5%92%8C%E5%88%A9%E7%94%A8Hacking8%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BF%A1%E6%81%AF%E6%B5%81/">
+                            
+                            Hacking8使用大全和利用Hacking8打造自己的知识信息流
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%AE%89%E5%85%A8%E5%9C%88%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E6%91%B8%E9%B1%BC%E6%8A%A5%E5%91%8A/">
+                            
+                            安全圈微信群聊摸鱼报告
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../ksubdomain%E6%96%B0%E7%89%88%E5%8F%91%E5%B8%83%2C%E6%AF%94massdns%E6%9B%B4%E5%BF%AB%EF%BC%81/">
+                            
+                            Ksubdomain新版发布,比massdns更快！
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E8%87%AA%E5%8A%A8%E5%8C%96%E8%8E%B7%E5%BE%97%E5%BE%AE%E8%BD%AF%E6%BC%8F%E6%B4%9E%E8%B5%8F%E9%87%91%E7%9A%84%E7%BB%8F%E5%8E%86/">
+                            
+                            自动化获得微软漏洞赏金的经历
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../2024%20%E6%96%B0%E5%8D%9A%E5%AE%A2%20%E6%96%B0%E7%9F%A5%E8%AF%86%E5%BA%93/">
+                            
+                            2024 新博客 新知识库
+                            
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                
+                <div class="flex flex-col gap-4">
+                    <div class="text-muted-foreground text-sm font-medium">Tech</div>
+                    
+                    <div class="flex flex-col gap-3">
+                        
+                    </div>
+                    
+                </div>
+                
+                <div class="flex flex-col gap-4">
+                    <div class="text-muted-foreground text-sm font-medium">Think</div>
+                    
+                    <div class="flex flex-col gap-3">
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E5%9B%9E%E5%BF%86%E5%95%8A_%E5%88%9D%E4%B8%AD%E5%86%99%E7%9A%84%E7%A8%8B%E5%BA%8F/">
+                            
+                            回忆啊 初中写的程序
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E5%85%B3%E4%BA%8E%E8%87%AA%E5%BB%BA%E7%9A%84Google%E9%95%9C%E5%83%8F/">
+                            
+                            关于自建的Google镜像
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%9C%80%E8%BF%91%E8%A6%81%E5%81%9A%E7%9A%84/">
+                            
+                            最近要做的
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/2018%20%E6%9A%91%E5%81%87%E8%A6%81%E5%81%9A%E7%9A%84/">
+                            
+                            2018 暑假要做的
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%9C%80%E8%BF%91%E4%BB%A5%E5%8F%8A%E6%9C%AA%E6%9D%A5%E5%81%9A%E7%9A%84/">
+                            
+                            最近以及未来做的
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E7%9C%8B%E5%AE%8CP%E7%89%9B%E5%8D%9A%E5%AE%A2%E5%90%8E%E7%9A%84%E6%84%9F%E6%83%B3/">
+                            
+                            看完P牛博客后的感想
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B2018/">
+                            
+                            总结一下2018
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E5%85%B3%E4%BA%8ET00ls%E4%B8%93%E8%AE%BF_%E5%85%B3%E4%BA%8E%E7%84%A6%E8%99%91/">
+                            
+                            关于T00ls专访 关于焦虑
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E5%A6%82%E4%BD%95%E5%8F%96%E8%88%8D%E7%94%A8%E6%88%B7%E7%9A%84%E2%80%9C%E5%8F%8B%E5%A5%BD%E2%80%9D%E4%BD%93%E9%AA%8C%EF%BC%9F/">
+                            
+                            如何取舍用户的“友好”体验？
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E4%B8%8B%E5%8D%8A%E5%B9%B4%E8%AE%A1%E5%88%92%EF%BD%9E/">
+                            
+                            下半年计划～
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%AF%95%E4%B8%9A%E5%90%8E%E7%9A%84%E4%B8%AD%E7%A7%8B/">
+                            
+                            毕业后的中秋
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%88%91%E6%89%80%E9%9D%A2%E4%B8%B4%E7%9A%84%E5%B7%A5%E4%BD%9C%E4%B8%8E%E7%88%B1%E5%A5%BD%E7%9A%84%E5%8F%96%E8%88%8D/">
+                            
+                            我所面临的工作与爱好的取舍
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/2019%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%26%E6%AF%95%E4%B8%9A%E5%8D%8A%E5%B9%B4/">
+                            
+                            2019年终总结&毕业半年
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/2020%E5%B9%B4%E6%80%BB%E7%BB%93/">
+                            
+                            2020年总结
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/2021%E5%B9%B4%E4%B8%AD%E6%80%BB%E7%BB%93/">
+                            
+                            2021年中总结
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/%E6%88%91%E7%9A%842021%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
+                            
+                            我的2021年终总结
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/2022%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%20-%20%E6%8A%80%E6%9C%AF%E4%B8%8E%E7%94%9F%E6%B4%BB/">
+                            
+                            2022年终总结   技术与生活
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Think/Hacking8%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B0%B1%E6%98%AF%E5%A5%BD%E7%8E%A9%20%E7%9F%A5%E8%AF%86%E6%98%9F%E7%90%83-%E5%85%AC%E4%BC%97%E5%8F%B72023%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
+                            
+                            Hacking8自动化就是好玩 知识星球 公众号2023年终总结
+                            
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            
+
+        </div>
+    </div>
+</dialog>
+                            </div>
+                            <div
+                                class="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
+                                <div class="h-(--top-spacing) shrink-0"></div>
+                                <div class="no-scrollbar overflow-y-auto px-8">
+    <div class="flex flex-col gap-2 p-4 pt-0 text-sm">
+        <p class="text-muted-foreground bg-background sticky top-0 h-6 text-xs">On This Page</p>
+        
+
+    </div>
+    <div class="h-12"></div>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="group-has-[.section-soft]/body:bg-surface/40 3xl:fixed:bg-transparent dark:bg-transparent">
+    <div class="container-wrapper px-4 xl:px-6">
+        <div class="flex h-(--footer-height) items-center justify-between">
+            <div class="text-muted-foreground w-full text-center text-xs leading-loose sm:text-sm">
+                Built by<!-- --> w8ay &mdash;
+                provided by&nbsp;<a href="https://github.com/asiffer/mkdocs-shadcn">shadcn theme</a> 
+            </div>
+        </div>
+    </div>
+</footer>
+    </div>
+     
+
+<script src="../../search/main.js"></script>
+
+
+    
+
+    <script src="../../js/copy-button.js"></script>
+    <script>updatePygmentsStylesheet();</script>
+    
+    
+</body>
+
+</html>

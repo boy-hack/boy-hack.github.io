@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <script>
+        // for search plugin notably
+        const base_url = "https://w8ay.fun/";
+    </script>
+    <script>
+    const darkTheme = window.matchMedia("(prefers-color-scheme: dark)");
+    darkTheme.onchange = (e) => {
+        if (e.matches) {
+            document.documentElement.classList.add("dark")
+            localStorage.theme = 'dark';
+        } else {
+            document.documentElement.classList.remove("dark")
+            localStorage.removeItem("theme")
+        }
+    };
+
+    // On page load. Priotiry to lcaolStorage
+    if (localStorage.theme === "dark") {
+        document.documentElement.classList.add("dark")
+    } else if (localStorage.theme === "light") {
+        document.documentElement.classList.remove("dark")
+    } else if (darkTheme.matches) {
+        document.documentElement.classList.add("dark")
+    } else {
+        document.documentElement.classList.remove("dark")
+    }
+
+    // set the layout based on localStorage
+    document.documentElement.classList.add(localStorage.getItem("html-layout") || "layout-fixed");
+</script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的2021年终总结 - W8AY's Blog</title>
+    
+
+
+<title>我的2021年终总结</title>
+
+
+
+
+
+
+
+
+
+<link rel="canonical" href="https://w8ay.fun/Think/%E6%88%91%E7%9A%842021%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
+
+
+<!-- Open Graph (Facebook, LinkedIn) -->
+
+<meta property="og:title" content="我的2021年终总结">
+
+
+
+
+
+<meta property="og:url" content="https://w8ay.fun/Think/%E6%88%91%E7%9A%842021%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
+
+
+
+
+
+
+<!-- Twitter Card -->
+
+<meta name="twitter:title" content="我的2021年终总结">
+
+
+
+
+
+
+<!-- JSON-LD Structured Data -->
+
+
+
+    <link rel="icon" href="../../img/favicon.ico">
+
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/geist.css" rel="stylesheet">
+    <link href="../../css/custom.css" rel="stylesheet">
+
+    
+    
+
+<link id="pygments-light" rel="stylesheet"
+    href="../../css/pygments/shadcn-light.css">
+<link id="pygments-dark" rel="stylesheet"
+    href="../../css/pygments/github-dark.css"
+    media="(prefers-color-scheme: dark)">
+
+
+    
+
+    
+
+    <script src="../../js/callbacks.js"></script>
+
+    
+
+    
+
+    
+
+</head>
+
+<body
+    class="text-foreground group/body overscroll-none font-sans antialiased [--footer-height:calc(var(--spacing)*14)] [--header-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)] theme-default">
+    <div id="inner-body" class="bg-background relative z-10 flex min-h-svh flex-col">
+        <header class="bg-background sticky top-0 z-50 w-full">
+    <div class="container-wrapper 3xl:fixed:px-0 px-6">
+        <div class="3xl:fixed:container flex h-(--header-height) items-center gap-2 **:data-[slot=separator]:!h-4">
+            <button id="menu-button" data-slot="popover-trigger" onclick="onMobileMenuButtonClick(event)"
+                class="group whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground px-4 py-2 has-[&gt;svg]:px-3 extend-touch-target h-8 touch-manipulation items-center justify-start gap-2.5 !p-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 active:bg-transparent dark:hover:bg-transparent flex lg:hidden"
+                type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«Rmplb»"
+                data-state="closed">
+                <div class="relative flex h-8 w-4 items-center justify-center">
+                    <div class="relative size-4">
+                        <!-- 16px x 16px -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="0" x2="16" y1="5" y2="5"
+                                class="group-data-[state=open]:translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:rotate-45 transition-all duration-300 origin-center" />
+                            <line x1="0" x2="16" y1="11" y2="11"
+                                class="group-data-[state=open]:-translate-y-[2.25px] group-data-[state=open]:-translate-x-[2.25px] group-data-[state=open]:-rotate-45 transition-all duration-300 origin-center" />
+                        </svg>
+                    </div>
+
+                    <span class="sr-only">Toggle Menu</span>
+                </div>
+                <span class="flex h-8 items-center text-lg leading-none font-medium">Menu</span>
+            </button>
+            <a data-slot="button"
+                class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-5 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 hidden h-8 lg:flex"
+                href="https://w8ay.fun/">
+                <span class="size-8 flex flex-row justify-center items-center">
+                    
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"
+    class="size-5">
+    <rect width="256" height="256" fill="none"></rect>
+    <line x1="208" y1="128" x2="128" y2="208" fill="none" stroke="currentColor" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="32"></line>
+    <line x1="192" y1="40" x2="40" y2="192" fill="none" stroke="currentColor" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="32"></line>
+</svg>
+
+
+                </span>
+                
+                <h1 class="pr-2">W8AY's Blog</h1>
+                
+            </a>
+            
+            <nav class="items-center gap-0.5 hidden lg:flex">
+    
+    
+    
+    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
+        data-slot="button" href="../../Projects/2024%20%E6%96%B0%E5%8D%9A%E5%AE%A2%20%E6%96%B0%E7%9F%A5%E8%AF%86%E5%BA%93/">
+        Projects
+    </a>
+    
+    
+    
+    
+    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
+        data-slot="button" href="../../Tech/AI/Chatgpt-%E5%92%8C%E9%BB%91%E5%AE%A2%E7%9F%A5%E8%AF%86%E5%BA%93%E8%81%8A%E5%A4%A9/">
+        Tech
+    </a>
+    
+    
+    
+    
+    <a class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5"
+        data-slot="button" href="../2018%20%E6%9A%91%E5%81%87%E8%A6%81%E5%81%9A%E7%9A%84/">
+        Think
+    </a>
+    
+    
+</nav>
+            
+            <div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
+                <div class="hidden w-full flex-1 md:flex md:w-auto md:flex-none">
+                    <button data-slot="dialog-trigger" onclick="onSearchBarClick(event)"
+    class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-secondary/80 px-4 py-2 has-[&gt;svg]:px-3 bg-surface text-surface-foreground/60 dark:bg-card relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64"
+    type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«R66plb»" data-state="closed">
+    <span class="text-muted-foreground hidden lg:inline-flex">Search documentation...</span>
+    <span class="text-muted-foreground inline-flex lg:hidden">Search...</span>
+    <div class="absolute top-1.5 right-1.5 hidden gap-1 sm:flex">
+        <kbd
+            class="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&amp;_svg:not([class*='size-'])]:size-3">Ctrl</kbd><kbd
+            class="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none [&amp;_svg:not([class*='size-'])]:size-3 aspect-square">K</kbd>
+    </div>
+</button>
+<dialog id="search-dialog" onclick="onSearchDialogClick(event)"
+    class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background rounded-lg shadow-lg border overflow-hidden p-0">
+    <div class="w-lg gap-4">
+        <div class="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
+            <div data-slot="command-input-wrapper" class="flex h-9 items-center gap-2 border-b px-3"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-search size-4 shrink-0 opacity-50">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                </svg>
+                <input data-slot="command-input"
+                    class="placeholder:text-muted-foreground flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Search documentation..." cmdk-input="" autocomplete="off" autocorrect="off"
+                    spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true"
+                    aria-controls="radix-«r1t6»" aria-labelledby="radix-«r1t7»" id="radix-«r1t8»" type="text" value=""
+                    aria-activedescendant="radix-«r1th»" oninput="onInputHandler(event)">
+            </div>
+        </div>
+        <div id="mkdocs-search-results" class="max-h-[300px] overflow-y-auto overflow-x-hidden">
+            <!-- search results go there -->
+        </div>
+    </div>
+</dialog>
+<script>
+    document.removeEventListener("keydown", searchShortcutHandler);
+    document.addEventListener("keydown", searchShortcutHandler);
+</script>
+                </div>
+                <div data-orientation="vertical" role="none" data-slot="separator"
+                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px ml-2 hidden lg:block">
+                </div>
+                <button data-slot="button"
+                    class="items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8 3xl:flex hidden"
+                    title="Toggle layout" onclick="toggleLayout(event)">
+                    <span class="sr-only">Toggle layout</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-gallery-horizontal">
+                        <path d="M2 3v18"></path>
+                        <rect width="12" height="18" x="6" y="3" rx="2"></rect>
+                        <path d="M22 3v18"></path>
+                    </svg>
+                </button>
+                <div data-orientation="vertical" role="none" data-slot="separator"
+                    class="bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px">
+                </div>
+                <button data-slot="button"
+                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 group/toggle extend-touch-target size-8"
+                    title="Toggle theme" onclick="onThemeSwitch(event)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="size-4.5">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                        <path d="M12 3l0 18"></path>
+                        <path d="M12 9l4.65 -4.65"></path>
+                        <path d="M12 14.3l7.37 -7.37"></path>
+                        <path d="M12 19.6l8.85 -8.85"></path>
+                    </svg>
+                    <span class="sr-only">Toggle theme</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+        <main class="flex flex-1 flex-col">
+            <div class="container-wrapper flex flex-1 flex-col px-2">
+                <div data-slot="sidebar-wrapper" style="--sidebar-width: 16rem; --sidebar-width-icon: 3rem;"
+                    class="group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex w-full 3xl:fixed:container 3xl:fixed:px-3 min-h-min flex-1 items-start px-0 [--sidebar-width:220px] [--top-spacing:0] lg:grid lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)] lg:[--sidebar-width:240px] lg:[--top-spacing:calc(var(--spacing)*4)]">
+                    <div data-slot="sidebar"
+                        class="text-sidebar-foreground w-(--sidebar-width) flex-col sticky top-[calc(var(--header-height)+1px)] z-30 hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] bg-transparent lg:flex">
+                        <div data-slot="sidebar-content" data-sidebar="content"
+                            class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden no-scrollbar px-2 pb-12">
+                            <div class="h-(--top-spacing) shrink-0"></div>
+                            <div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2 no-scrollbar">
+    
+
+    
+    
+    
+
+    
+
+    
+    
+
+    
+    <div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2">
+        <div data-slot="sidebar-group-content" data-sidebar="group-content" class="w-full text-sm">
+            <ul data-slot="sidebar-menu" data-sidebar="menu" class="flex w-full min-w-0 flex-col gap-0.5">
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/Hacking8%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B0%B1%E6%98%AF%E5%A5%BD%E7%8E%A9%20%E7%9F%A5%E8%AF%86%E6%98%9F%E7%90%83-%E5%85%AC%E4%BC%97%E5%8F%B72023%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        Hacking8自动化就是好玩 知识星球 公众号2023年终总结
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/2022%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%20-%20%E6%8A%80%E6%9C%AF%E4%B8%8E%E7%94%9F%E6%B4%BB/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        2022年终总结   技术与生活
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="true" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E6%88%91%E7%9A%842021%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        我的2021年终总结
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/2021%E5%B9%B4%E4%B8%AD%E6%80%BB%E7%BB%93/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        2021年中总结
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/2020%E5%B9%B4%E6%80%BB%E7%BB%93/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        2020年总结
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/2019%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%26%E6%AF%95%E4%B8%9A%E5%8D%8A%E5%B9%B4/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        2019年终总结&毕业半年
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E6%88%91%E6%89%80%E9%9D%A2%E4%B8%B4%E7%9A%84%E5%B7%A5%E4%BD%9C%E4%B8%8E%E7%88%B1%E5%A5%BD%E7%9A%84%E5%8F%96%E8%88%8D/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        我所面临的工作与爱好的取舍
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E6%AF%95%E4%B8%9A%E5%90%8E%E7%9A%84%E4%B8%AD%E7%A7%8B/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        毕业后的中秋
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E4%B8%8B%E5%8D%8A%E5%B9%B4%E8%AE%A1%E5%88%92%EF%BD%9E/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        下半年计划～
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E5%A6%82%E4%BD%95%E5%8F%96%E8%88%8D%E7%94%A8%E6%88%B7%E7%9A%84%E2%80%9C%E5%8F%8B%E5%A5%BD%E2%80%9D%E4%BD%93%E9%AA%8C%EF%BC%9F/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        如何取舍用户的“友好”体验？
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E5%85%B3%E4%BA%8ET00ls%E4%B8%93%E8%AE%BF_%E5%85%B3%E4%BA%8E%E7%84%A6%E8%99%91/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        关于T00ls专访 关于焦虑
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B2018/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        总结一下2018
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E7%9C%8B%E5%AE%8CP%E7%89%9B%E5%8D%9A%E5%AE%A2%E5%90%8E%E7%9A%84%E6%84%9F%E6%83%B3/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        看完P牛博客后的感想
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E6%9C%80%E8%BF%91%E4%BB%A5%E5%8F%8A%E6%9C%AA%E6%9D%A5%E5%81%9A%E7%9A%84/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        最近以及未来做的
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/2018%20%E6%9A%91%E5%81%87%E8%A6%81%E5%81%9A%E7%9A%84/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        2018 暑假要做的
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E6%9C%80%E8%BF%91%E8%A6%81%E5%81%9A%E7%9A%84/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        最近要做的
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E5%85%B3%E4%BA%8E%E8%87%AA%E5%BB%BA%E7%9A%84Google%E9%95%9C%E5%83%8F/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        关于自建的Google镜像
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+                
+                <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+    <a data-slot="sidebar-menu-button" data-active="false" data-sidebar="menu-button"
+        data-size="default" href="/Think/%E5%9B%9E%E5%BF%86%E5%95%8A_%E5%88%9D%E4%B8%AD%E5%86%99%E7%9A%84%E7%A8%8B%E5%BA%8F/"
+        class="hover:bg-sidebar-accent hover:text-sidebar-accent-foreground peer/menu-button flex items-center gap-2 rounded-md p-2 text-left outline-hidden ring-sidebar-ring transition-[width,height,padding] focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 data-[active=true]:bg-accent data-[active=true]:border-accent 3xl:fixed:w-full 3xl:fixed:max-w-48 relative h-[30px] w-fit overflow-visible border border-transparent text-[0.8rem] font-medium after:absolute after:inset-x-0 after:-inset-y-1 after:z-0 after:rounded-md">
+
+        
+        回忆啊 初中写的程序
+        
+
+        
+
+        
+
+        
+    </a>
+</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+    
+
+    
+
+
+    
+</div>
+                        </div>
+                    </div>
+                    <div class="h-full w-full">
+                        <div data-slot="docs" class="flex items-stretch text-[1.05rem] sm:text-[15px] xl:w-full">
+                            <div class="flex min-w-0 flex-1 flex-col">
+                                <div class="h-(--top-spacing) shrink-0"></div>
+                                <article class=" w-full">
+    <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2">
+            <div id="page-header" class="flex items-start justify-between">
+
+                <div class="flex flex-col gap-2">
+                    <h1 class="scroll-m-20 text-4xl font-semibold tracking-tight sm:text-3xl xl:text-4xl">
+                        我的2021年终总结
+                    </h1>
+                    
+                    <time class="flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <svg class="h-4 w-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 2v4"/>
+                            <path d="M16 2v4"/>
+                            <rect width="18" height="18" x="3" y="4" rx="2"/>
+                            <path d="M3 10h18"/>
+                        </svg>
+                        <span>2022年01月01日</span>
+                    </time>
+                    
+                </div>
+
+                <div class="flex items-center gap-2 pt-1.5">
+                    
+                    <a data-slot="button"
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 extend-touch-target size-8 shadow-none md:size-7"
+                        href="/Think/%E6%88%91%E6%89%80%E9%9D%A2%E4%B8%B4%E7%9A%84%E5%B7%A5%E4%BD%9C%E4%B8%8E%E7%88%B1%E5%A5%BD%E7%9A%84%E5%8F%96%E8%88%8D/">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="tabler-icon tabler-icon-arrow-left ">
+                            <path d="M5 12l14 0"></path>
+                            <path d="M5 12l6 6"></path>
+                            <path d="M5 12l6 -6"></path>
+                        </svg>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    
+                    
+                    <a data-slot="button"
+                        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 extend-touch-target size-8 shadow-none md:size-7"
+                        href="/Think/%E6%9C%80%E8%BF%91%E4%BB%A5%E5%8F%8A%E6%9C%AA%E6%9D%A5%E5%81%9A%E7%9A%84/">
+                        <span class="sr-only">Next</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="tabler-icon tabler-icon-arrow-right ">
+                            <path d="M5 12l14 0"></path>
+                            <path d="M13 18l6 -6"></path>
+                            <path d="M13 6l6 6"></path>
+                        </svg>
+                    </a>
+                    
+                </div>
+            </div>
+            
+        </div>
+        
+
+    </div>
+    <div class="typography w-full flex-1 *:data-[slot=alert]:first:mt-0">
+        <p>又到了提笔写年终总结的时候，和以前拼命想记录生活状态不同，这次我却不知道从哪开始写起。就想到啥写啥吧。</p>
+<h2 id="_1">北京</h2>
+<p>今年年初来到了北京，没有了昔日了朋友，在北京还是很孤独的。跨年夜我和女朋友吃完晚饭，说想找个地方一起跨年，竟然发现没有什么好去的地方。想到三里屯离我们最近，那边应该好玩，打开打车软件发现附近堵车已经堵了几条街了，瞬间打消了去意，想买点东西回家吃，但是已经快10点，附近超市什么的都关门了，也想不到买点啥，就这样两手空空回到出租屋和好友们在游戏中度过了跨年的钟声。</p>
+<h2 id="hacking8">Hacking8安全信息流</h2>
+<p>写总结第二个想到的就是总结一下hacking8，这是我今年花费时间最多的一个东西，我得好好总结下，从去年五月一号写第一行代码到现在，从中踩了不少坑和学到了不少东西。</p>
+<p><img alt="Jietu20211111-113720-Macbook" src="../assert/mcXNE_Jietu20211111-113720-Macbook.png" /></p>
+<p>去年的总结中</p>
+<blockquote>
+<p>网站很长一段时间都是开放注册，需要”解题”才能获得邀请码，这样很酷。目前注册人数已经有700多人了，每天大约会有5个人签到～ 平均每天会有200来个独立IP访问。</p>
+</blockquote>
+<p>今年这个数字都翻倍了，注册用户到了<code>1700+</code>，每天大约会有<code>40</code>人签到，网站日ip达到了<code>500-600</code>。</p>
+<p><img alt="image-20220101140309137" src="../assert/amiKs_image-20220101140309137.png" /></p>
+<p>这不算是很高的增长，不过对于我个人来说还是很激动。毕竟有越来越多的人认可了hacking8。</p>
+<p>之前服务器部署一些服务都抠抠搜搜，今年索性买了一台好点的服务器，用来支持一些研究，也上了全文索引，让搜索更加方便。</p>
+<p><img alt="image-20220101140731682" src="../assert/ZT7ew_image-20220101140731682.png" /></p>
+<p>今年上半年花了很多时间用在修改hacking8的bug上，因为涉及用户系统的操作，代码量的成倍增加，一会web挂了，一会爬虫挂了，一会又要处理一些小工具服务的bug，服务挂掉后，会通过<code>Bark</code>手机提醒我，但我把它声音提醒早早就关闭了，因为有时候晚上会一直响。。</p>
+<p>常常就是早上醒来，发现了提醒99+的错误消息。。然后每次都要重新登陆上服务器，检查服务，修改bug，重启服务。</p>
+<p>下半年我决心改掉这些，不想在过多去手动操作了，想让hacking8全程都自动起来，此时才明白开发中自动测试的重要性，于是做了一键自动部署/重启爬虫，自动测试爬虫失效状态，自动化的服务监测系统等等，开发完后就很少再登陆服务器检查错误了，觉得还不错～</p>
+<p><strong>新功能</strong></p>
+<p>日常在做的还有不停的<strong>砍需求</strong> ，经过这么一年，hacking8的主体功能就是信息流的推送工具，外加一些其他的辅助功能。平时我会有很多新的想法，但奈何只有我一人业余开发维护，很多想法突然来了灵感，就想立马加上，此时我的另一个脑袋就会拼命拉住我，说不行，让子弹飞一会。</p>
+<p>所以什么周报总结、github监控、微信公众号监控等等都被自我否掉了，精力实在有限。之前还想模仿即刻做用户的圈子社区，写了个笔记记录了下想法，之后也被自我否掉了，因为我还没有能力能运营起一个圈子社区，不能营造那种氛围。</p>
+<p>Hacking8的界面主体还是<code>bootstrap</code>框架搭建的，几年过去还是没有一丝丝改变，虽然比较简陋，看长了也就习惯了。界面上改变的就是把图标焕然一新了，把原先的<code>Font AweSome</code>换成了阿里的<code>iconfont</code>，也算是有个新气象。</p>
+<p>Hacking8在今年也加入了些功能，通常就是一些小想法，将它实现为了在线的方式。</p>
+<p><img alt="image-20220101021138910" src="../assert/pCaJU_image-20220101021138910.png" /></p>
+<p>这些小功能通常也都写了博客记录了，如</p>
+<ul>
+<li>白加黑自动化生成器</li>
+<li>CS上线器</li>
+<li>dll2shellcode</li>
+</ul>
+<p><strong>小8微信机器人</strong></p>
+<p>刚开始做微信机器人，主要目的是监控公众号的，后面有点想法，想做个群聊机器人，对接信息流的最新数据用于学习，定时推送或主动@机器人推送。然后机器人第一天就被加爆了，被官方风控，现在还没解封。。</p>
+<p>写这篇文章前一天，又想到一个点子。看在元旦能不能给安排上。。</p>
+<p><img alt="IMG_5219" src="../assert/z2Mmp_IMG_5219.PNG" /></p>
+<h2 id="_2">微信公众号</h2>
+<p>公众号”Hacking就是好玩”在去年关注的人有<code>2400+</code>，今年也整整番了一倍，有<code>4800+</code></p>
+<p>常读用户</p>
+<p><img alt="image-20220101191112623" src="../assert/ZQzJ0_image-20220101191112623.png" /></p>
+<p>今年在公众号发了文章27篇，也刷新了我的记录，每篇都是原创，阅读量都在1000+。</p>
+<p><img alt="image-20220101192814771" src="../assert/in0kK_image-20220101192814771.png" /></p>
+<p><strong>收入</strong></p>
+<p>有好多人联系想在公众号投放广告，一篇的价格在700左右，挺诱人的，我想了想，还是拒绝了。写公众号是作为一个业余爱好，有些东西还是保持最初的样子比较好。</p>
+<p>通过<code>知识星球</code>的收入，也能够支撑起<code>Hacking8信息流</code>和<code>公众号</code>的日常维护了。</p>
+<h2 id="_3">工作</h2>
+<p>今年换了工作，也聚集于安全开发上，主要做windows方面的，将红队中常用的手段以工程化的方式实现，语言在Go、C、C++、Python、NodeJs上切换，前三个主要是写客户端，用Python主要写后端和一些爬虫脚本，用node和vue主要写<code>electron</code>。在windows上，没有写c#是一个遗憾，除非必要，我也不太想花精力再学一门语言了。</p>
+<p>公司氛围也很轻松，所以有时间进行各种的技术学习，看了很多代码，把它们一些精华吸收了下记录在了博客，github和知识星球。</p>
+<p>github issue收集了不少感兴趣的资料</p>
+<ul>
+<li>https://github.com/boy-hack/boy-hack/issues</li>
+</ul>
+<p><img alt="image-20220101194439180" src="../assert/Odg1c_image-20220101194439180.png" /></p>
+<p>回望一下今年做了些什么，这是今年我博客发表文章的统计图，和去年相比文章数量是增加的。</p>
+<p><img alt="image-20220101194950919" src="../assert/u9Hat_image-20220101194950919.png" /></p>
+<p>今年把<code>projectdiscover</code>的项目全都过了一遍，写了几篇源码阅读分享，在知识星球上我还布置了几次有关扫描器的作业。</p>
+<p>今年学习了逆向，基于逆向，对Go编译的二进制进行混淆，基于逆向，逆向yara和提取goby指纹，这是最好玩的事情之一了。</p>
+<p>关于红队开发，目前还是停留在免杀层面，从免杀入手，开始了解windows平台的各种机制，和杀软对抗，用工程化的方式将免杀的技战术组合在一起，组合成各类免杀模块。没有深入内网，也是今年的遗憾之一。</p>
+<p><strong>关于技术的深度和广度</strong></p>
+<p>我的技术栈很广，总是这个想了解一下，那个也想试试，保持了足够的好奇心。但要说哪个厉害，似乎也没有哪个。</p>
+<p>技术的精进还是得有一个长处，还是得对一个技术保持深度的理解和影响力。</p>
+<h2 id="_4">回顾计划</h2>
+<p>去年的年终和年中总结都制定了计划</p>
+<p>2020年终</p>
+<ul>
+<li>分析一个远控了解它的功能和隐藏，执行手段，写个分析以及模仿写个软件<ul>
+<li>完成，看了很多go的rat和c2源码，写了一些分析在知识星球</li>
+</ul>
+</li>
+<li>Hacking8信息流还有很多功能需要更新，列个清单并更新它<ul>
+<li>基本完成，没有完成的都砍掉了</li>
+</ul>
+</li>
+<li>建造一个SRC自动化信息收集平台，输入一些域名，就能得到src需要的一切信息收集相关的东西。主要是整合自己之前做的一些东西。<ul>
+<li>没有完成。但是实现了自动化工具，包含了子域名扫描+检测、httpx扫描、指纹识别、nuclei+xray模板扫描。只等待有空集成进去。</li>
+</ul>
+</li>
+</ul>
+<p>2021年中</p>
+<ul>
+<li>
+<p>准备做一个知识星球，用于分享安全与开发的一些东西，一些开源代码的讲解，它们有什么功能，特点是啥，有哪些值得学习的。比较纠结的是安全圈感兴趣的是各种漏洞的利用，各种工具的使用，对工具原理并不是那么在乎，我的知识星球能坚持多久也未知。</p>
+<ul>
+<li>
+<p>今年也创建了我的知识星球，知识星球的收入很大程度缓解了压力。</p>
+</li>
+<li>
+<blockquote>
+<p>很多黑客和安全工具的构造是那么巧妙，我看了很多安全工具的代码，将它们值得学习的地方记录了下来。一点点开发+安全的结合，Hacking自动化就是好玩，这个仓库将持续更新星球中的精华文章，源码和思路，付费加入是我更新的动力。</p>
+</blockquote>
+</li>
+<li>
+<p>目前星球的人数有199人，承蒙大家相信，未来星球会分享更多东西。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>模仿bugscan扫描器的go版本扫描器还是得做，不管其他的，我得要有，自己用也行啊。</p>
+<ul>
+<li>没做成。。</li>
+<li>
+<p>二进制还得看，完成10道简单的crackme和pwn题吧，写文章发博客～</p>
+</li>
+<li>
+<p>完成了一些简单的re题，pwn还没开始学…</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="_5">生活</h2>
+<p>生活很平常了，两点一线，除了公司就是出租屋了，并且在一条街道上，真正的两点一线了，都不带拐弯的。</p>
+<p>在去公司路上听听书，听了《明朝那些事》，又在B站看了《大明王朝1566》的解说，还挺不错。</p>
+<p>健康：这一年身体确实有点差，运动也很少，甚至还打了一次120（最后是虚惊一场），但还是值得警惕，体检报告里好几项指标都超了，对于身体的bug，我能做的似乎只有多喝热水和多锻炼吧。</p>
+<p>看了一本书《只是为了好玩——Linux 之父林纳斯自传》,里面有很多有趣的句子和思考，如下：</p>
+<p><strong>关于生活的意义的讨论</strong></p>
+<p>三件事：生存、社会秩序、娱乐，生活中所有事情遵循这个顺序，某种意义上说，生活的意义就是要达到第三个阶段。我的理解，计算机编程也能有这三个意义，第一是通过计算机编程这门手艺生存，第二是凭借计算机编程这门手艺进入一家大公司，进入到第三个境界，把编程看作一项娱乐活动来玩，写代码也能获得快乐。</p>
+<p>之前我的一些随笔又在疑惑，为什么工作后一些有关代码的兴趣消失了，这个“生活的意义”似乎可以解答，在大学时候，处于生活意义的第三阶段，所以写代码是快乐的，但是工作后，退回到了第二阶段。</p>
+<p><strong>关于编程的美妙</strong></p>
+<p>下面这段话很有同感</p>
+<blockquote>
+<p>为什么对编程这么狂热，我自己也解释不来，我姑且说说看吧：在编程的人看来，编程是世上最有意思的事情了，它要比国际象棋之类的游戏复杂得多，你想要什么规则都可以自己设定。按照你定下的规则，它的结果该是什么，就会是什么。不过，似乎在外行人看起来，编程简直是地球上最无趣的事。 编程刚刚开始会令人觉得特别刺激，这个原因很好解释：因为你让电脑干什么，它就干什么，没有毫厘之差，并且永远服从、毫无怨言。但是单靠这一点，并不足以让你真正喜欢上编程。事实上，电脑的盲从只会让编程变得无趣，编程真正让人欲罢不能的魅力是:你想让电脑干什么事情之前，必须先弄清除，怎么样才能让它这么干。计算机科学和物理科学有不少相似的地方，它们都是在一个非常基础的层面上探讨整个学科的运作原理，不同的是在物理科学上，你得去弄清楚这个已存在世界是如何正常运转的，而在计算机科学上，你得从零开始创造出一个新世界来，而且还得设法让它正常运转。</p>
+</blockquote>
+<p><strong>书中一个趣事</strong></p>
+<blockquote>
+<p>新上的unix课，老师和我们一样，对unix也不熟悉。他一开始就很坦率的告诉了我们这一点，所以这不是什么大问题。不过他只会提前预习下一章，但有时候我们会提前跳着读后面三个章节，于是上课就变成了一种师生比赛，学生们向老师提一些三章后才学到的问题，看能不能把老师问倒，看他是不是已经读到了那里。</p>
+<p>Unix系统的简洁并不是天生就有。要知道，这个有着建筑构件概念的操作系统，可是AT&amp;T贝尔实验室的丹尼斯里奇和肯汤普逊辛辛苦苦花了大力气写出来的！你也千万别把简洁和容易混为一谈。简洁需要良好的设计和卓然的品味，要做到简洁可一点都不容易。</p>
+</blockquote>
+<p>对里面的师生比赛很是羡慕，如果未来我要做老师的话，我也要做这样的老师。</p>
+<h2 id="new-2022">New 2022()</h2>
+<p>惯例给自己新的一年制定下计划(暂定)。</p>
+<ul>
+<li>去年定了学习pwn，就看了几篇文章，然后之后都忘了。去年在做yara逆向的时候看到了几篇有关yara漏洞的文章，漏洞点知道在哪，但是利用层面完全不懂了，今年学习下pwn的一些漏洞点和利用方式吧。</li>
+<li>自动化刷src<ul>
+<li>想给自己被动赚钱多一个门路，一些基础的地基项目差不多完成了，现在只要组装一下测试效果。</li>
+<li>之前有过一段时间的研究，后面是条件限制终止了，但是也挖到了较大的成果。现在服务器有了，web2.0爬虫有开源的了，w13scan所具备的技战术，以及我对go差不多摸清楚了，所以想重启这个研究，挖点大事情。</li>
+</ul>
+</li>
+<li>对一个技术做深入的研究<ul>
+<li>具体哪个技术，我还没想好，但是深入的研究，我想应该先把相关的文章和paper读完，做到了这一步，到年中的时候再来规划吧。</li>
+</ul>
+</li>
+</ul>
+<p>2021自己觉得还是做了挺多有意思的研究，学习了很多东西，2022不知道还有哪些有意思的事情在等着呢？</p>
+    </div>
+</article>
+                                <div class="mx-auto flex flex-wrap h-16 w-full max-w-2xl items-center gap-2 px-4 md:px-0">
+    
+    <a data-slot="button"
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 shadow-none"
+        href="/Think/%E6%88%91%E6%89%80%E9%9D%A2%E4%B8%B4%E7%9A%84%E5%B7%A5%E4%BD%9C%E4%B8%8E%E7%88%B1%E5%A5%BD%E7%9A%84%E5%8F%96%E8%88%8D/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="tabler-icon tabler-icon-arrow-left ">
+            <path d="M5 12l14 0"></path>
+            <path d="M5 12l6 6"></path>
+            <path d="M5 12l6 -6"></path>
+        </svg>
+        我所面临的工作与爱好的取舍
+    </a>
+    
+    
+    <a data-slot="button"
+        class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 ml-auto shadow-none"
+        href="/Think/%E6%9C%80%E8%BF%91%E4%BB%A5%E5%8F%8A%E6%9C%AA%E6%9D%A5%E5%81%9A%E7%9A%84/">
+        最近以及未来做的
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="tabler-icon tabler-icon-arrow-right ">
+            <path d="M5 12l14 0"></path>
+            <path d="M13 18l6 -6"></path>
+            <path d="M13 6l6 6"></path>
+        </svg>
+    </a>
+    
+</div>
+                                <dialog id="bottom-sidebar" onclick="onBottomSidebarDialogClick(event)" class="bg-transparent"
+    style="position: fixed; left: 0px; top: 0px; transform: translate(0px, 58px); min-width: max-content; --radix-popper-transform-origin: 0% 0px; will-change: transform; z-index: 50; --radix-popper-available-width: 504px; --radix-popper-available-height: 857px; --radix-popper-anchor-width: 72.94999694824219px; --radix-popper-anchor-height: 32px;">
+    <div data-side="bottom" data-align="start" data-state="open" role="dialog" data-slot="popover-content"
+        class="text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-popover-content-transform-origin) border outline-hidden bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto rounded-none border-none p-0 shadow-none backdrop-blur duration-100"
+        style="--radix-popover-content-transform-origin: var(--radix-popper-transform-origin); --radix-popover-content-available-width: var(--radix-popper-available-width); --radix-popover-content-available-height: var(--radix-popper-available-height); --radix-popover-trigger-width: var(--radix-popper-anchor-width); --radix-popover-trigger-height: var(--radix-popper-anchor-height);"
+        tabindex="-1">
+        <div class="flex flex-col gap-12 overflow-auto px-6 py-6">
+            
+            
+            
+
+            
+            <div class="flex flex-col gap-4">
+                <div class="text-muted-foreground text-sm font-medium">Menu</div>
+                <div class="flex flex-col gap-3">
+                    
+                    <a class="text-2xl font-medium" href="../../links/">
+                        
+                        Links
+                        
+                    </a>
+                    
+                    <a class="text-2xl font-medium" href="../../%E5%BE%AE%E8%AF%AD/">
+                        
+                        微语
+                        
+                    </a>
+                    
+                    <a class="text-2xl font-medium" href="../..">
+                        
+                        Home
+                        
+                    </a>
+                    
+                </div>
+            </div>
+            
+
+            
+            <div class="flex flex-col gap-8">
+                
+                <div class="flex flex-col gap-4">
+                    <div class="text-muted-foreground text-sm font-medium">Projects</div>
+                    
+                    <div class="flex flex-col gap-3">
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w9scan1.1~1.5/">
+                            
+                            W9scan1.1~1.5
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w9scan%20Bug%E5%8F%8D%E9%A6%88%E6%8F%90%E4%BA%A4/">
+                            
+                            w9scan Bug反馈提交
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E6%9C%89%E5%85%B3w9scan%E7%9A%84%E7%BC%96%E7%A8%8B%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/">
+                            
+                            有关w9scan的编程经验分享
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E5%88%86%E5%B8%83%E5%BC%8F%E7%9A%84WEB%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F%EF%BC%9Aw11scan%20%20%E9%A2%84%E8%A7%88/">
+                            
+                            分布式的WEB指纹识别系统：w11scan  预览
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E4%B9%8B%E5%89%8D%E5%86%99%E5%86%99%E5%81%9C%E5%81%9C%E7%9A%84%E4%B8%9C%E8%A5%BF/">
+                            
+                            记录一下之前写写停停的东西
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/hack-requests_%E6%9B%B4%E5%A5%BD%E7%94%A8%E7%9A%84python%E7%BD%91%E7%BB%9C%E5%BA%93/">
+                            
+                            Hack requests 更好用的python网络库
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w12scan%20%E6%83%B3%E6%B3%95%E5%92%8Cfront-end/">
+                            
+                            W12scan 想法和front end
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E2%9A%A1%EF%B8%8Fw12scan%E7%9A%84%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%9E%8B%E5%9B%BE%26Django%20%E8%AE%B0%E5%BD%95/">
+                            
+                            ⚡️w12scan的前端设计原型图&Django 记录
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w12scan%20%E5%BC%80%E5%8F%91%E8%BF%91%E5%86%B5/">
+                            
+                            W12scan 开发近况
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w12scan%20WEB%E7%AB%AF%E5%AE%8C%E6%88%90%E4%BA%86/">
+                            
+                            w12scan WEB端完成了
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w12scan%20docker-compose%20%E7%BC%96%E6%8E%92%E8%B8%A9%E5%9D%91/">
+                            
+                            W12scan docker compose 编排踩坑
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w12scan%20%E5%9C%A8%E7%BA%BF%E9%83%A8%E7%BD%B2%E8%AE%B0%E5%BD%95/">
+                            
+                            W12scan 在线部署记录
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/hack-requests%20v1.0%20%26%26%20%E8%AF%BBrequests%E8%AE%B0%E5%BD%95/">
+                            
+                            Hack requests v1.0 && 读requests记录
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E-W12Scan-WEB%E7%AF%87/">
+                            
+                            如何构建一个网络空间搜索引擎 W12Scan WEB篇
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E5%A6%82%E4%BD%95%E5%9C%A8%E6%9C%AC%E6%9C%BA%E6%90%AD%E5%BB%BAW12Scan/">
+                            
+                            如何在本机搭建W12Scan
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/W13Scan%20%E7%95%85%E6%83%B3%EF%BD%9E/">
+                            
+                            W13Scan 畅想～
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E8%AE%B0W13SCAN%E6%89%AB%E6%8F%8F%E5%88%B0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%BC%8F%E6%B4%9E/">
+                            
+                            记W13SCAN扫描到的第一个漏洞
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w13scan%E5%8F%91%E7%8E%B0%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%BC%8F%E6%B4%9E/">
+                            
+                            W13scan发现的第二个漏洞
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E5%86%99%E5%9C%A8w13scan%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5/">
+                            
+                            写在w13scan第一阶段
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E5%9F%BA%E4%BA%8Ejs%E8%AF%AD%E4%B9%89%E5%88%86%E6%9E%90%E7%9A%84dom-xss%E6%89%AB%E6%8F%8F%E5%9C%A8%E7%BA%BF%E6%B5%8B%E8%AF%95/">
+                            
+                            基于js语义分析的dom xss扫描在线测试
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/xss%E6%89%AB%E6%8F%8F%E5%99%A8%E6%88%90%E9%95%BF%E8%AE%B0/">
+                            
+                            Xss扫描器成长记
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w13scan%E4%BB%8A%E5%B9%B4%E5%B0%86%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%9B%B4%E6%96%B0/">
+                            
+                            W13scan今年将进行的更新
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w13scan%E6%AD%A3%E5%9C%A8%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%9B%B4%E6%96%B0/">
+                            
+                            W13scan正在进行的更新
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w13scan%E5%90%AF%E5%8A%A8logo%E5%92%8C%E6%8A%A5%E5%91%8A%E9%A1%B5%E9%9D%A2/">
+                            
+                            W13scan启动logo和报告页面
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/w13scan%202.0%20%E5%8F%91%E5%B8%83/">
+                            
+                            W13scan 2.0 发布
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/ksubdomain%E6%97%A0%E7%8A%B6%E6%80%81%E5%9F%9F%E5%90%8D%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7/">
+                            
+                            Ksubdomain无状态域名爆破工具
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E6%96%B0%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%87%E5%BA%93%E6%83%B3%E6%B3%95/">
+                            
+                            新的安全文库想法
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/Hacking8%E4%BF%A1%E6%81%AF%E6%B5%81%E6%B7%BB%E5%8A%A0%E5%B9%BF%E5%91%8A%E8%AF%86%E5%88%AB%E7%9A%84%E6%97%A5%E8%AE%B0/">
+                            
+                            Hacking8信息流添加广告识别的日记
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/Hacking8%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%85%A8%E5%92%8C%E5%88%A9%E7%94%A8Hacking8%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E7%9F%A5%E8%AF%86%E4%BF%A1%E6%81%AF%E6%B5%81/">
+                            
+                            Hacking8使用大全和利用Hacking8打造自己的知识信息流
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E5%AE%89%E5%85%A8%E5%9C%88%E5%BE%AE%E4%BF%A1%E7%BE%A4%E8%81%8A%E6%91%B8%E9%B1%BC%E6%8A%A5%E5%91%8A/">
+                            
+                            安全圈微信群聊摸鱼报告
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/ksubdomain%E6%96%B0%E7%89%88%E5%8F%91%E5%B8%83%2C%E6%AF%94massdns%E6%9B%B4%E5%BF%AB%EF%BC%81/">
+                            
+                            Ksubdomain新版发布,比massdns更快！
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/%E8%87%AA%E5%8A%A8%E5%8C%96%E8%8E%B7%E5%BE%97%E5%BE%AE%E8%BD%AF%E6%BC%8F%E6%B4%9E%E8%B5%8F%E9%87%91%E7%9A%84%E7%BB%8F%E5%8E%86/">
+                            
+                            自动化获得微软漏洞赏金的经历
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../../Projects/2024%20%E6%96%B0%E5%8D%9A%E5%AE%A2%20%E6%96%B0%E7%9F%A5%E8%AF%86%E5%BA%93/">
+                            
+                            2024 新博客 新知识库
+                            
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                
+                <div class="flex flex-col gap-4">
+                    <div class="text-muted-foreground text-sm font-medium">Tech</div>
+                    
+                    <div class="flex flex-col gap-3">
+                        
+                    </div>
+                    
+                </div>
+                
+                <div class="flex flex-col gap-4">
+                    <div class="text-muted-foreground text-sm font-medium">Think</div>
+                    
+                    <div class="flex flex-col gap-3">
+                        
+                        <a class="text-2xl font-medium" href="../%E5%9B%9E%E5%BF%86%E5%95%8A_%E5%88%9D%E4%B8%AD%E5%86%99%E7%9A%84%E7%A8%8B%E5%BA%8F/">
+                            
+                            回忆啊 初中写的程序
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%85%B3%E4%BA%8E%E8%87%AA%E5%BB%BA%E7%9A%84Google%E9%95%9C%E5%83%8F/">
+                            
+                            关于自建的Google镜像
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E6%9C%80%E8%BF%91%E8%A6%81%E5%81%9A%E7%9A%84/">
+                            
+                            最近要做的
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../2018%20%E6%9A%91%E5%81%87%E8%A6%81%E5%81%9A%E7%9A%84/">
+                            
+                            2018 暑假要做的
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E6%9C%80%E8%BF%91%E4%BB%A5%E5%8F%8A%E6%9C%AA%E6%9D%A5%E5%81%9A%E7%9A%84/">
+                            
+                            最近以及未来做的
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E7%9C%8B%E5%AE%8CP%E7%89%9B%E5%8D%9A%E5%AE%A2%E5%90%8E%E7%9A%84%E6%84%9F%E6%83%B3/">
+                            
+                            看完P牛博客后的感想
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B2018/">
+                            
+                            总结一下2018
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%85%B3%E4%BA%8ET00ls%E4%B8%93%E8%AE%BF_%E5%85%B3%E4%BA%8E%E7%84%A6%E8%99%91/">
+                            
+                            关于T00ls专访 关于焦虑
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E5%A6%82%E4%BD%95%E5%8F%96%E8%88%8D%E7%94%A8%E6%88%B7%E7%9A%84%E2%80%9C%E5%8F%8B%E5%A5%BD%E2%80%9D%E4%BD%93%E9%AA%8C%EF%BC%9F/">
+                            
+                            如何取舍用户的“友好”体验？
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E4%B8%8B%E5%8D%8A%E5%B9%B4%E8%AE%A1%E5%88%92%EF%BD%9E/">
+                            
+                            下半年计划～
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E6%AF%95%E4%B8%9A%E5%90%8E%E7%9A%84%E4%B8%AD%E7%A7%8B/">
+                            
+                            毕业后的中秋
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../%E6%88%91%E6%89%80%E9%9D%A2%E4%B8%B4%E7%9A%84%E5%B7%A5%E4%BD%9C%E4%B8%8E%E7%88%B1%E5%A5%BD%E7%9A%84%E5%8F%96%E8%88%8D/">
+                            
+                            我所面临的工作与爱好的取舍
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../2019%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%26%E6%AF%95%E4%B8%9A%E5%8D%8A%E5%B9%B4/">
+                            
+                            2019年终总结&毕业半年
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../2020%E5%B9%B4%E6%80%BB%E7%BB%93/">
+                            
+                            2020年总结
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../2021%E5%B9%B4%E4%B8%AD%E6%80%BB%E7%BB%93/">
+                            
+                            2021年中总结
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="./">
+                            
+                            我的2021年终总结
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../2022%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93%20-%20%E6%8A%80%E6%9C%AF%E4%B8%8E%E7%94%9F%E6%B4%BB/">
+                            
+                            2022年终总结   技术与生活
+                            
+                        </a>
+                        
+                        <a class="text-2xl font-medium" href="../Hacking8%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B0%B1%E6%98%AF%E5%A5%BD%E7%8E%A9%20%E7%9F%A5%E8%AF%86%E6%98%9F%E7%90%83-%E5%85%AC%E4%BC%97%E5%8F%B72023%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
+                            
+                            Hacking8自动化就是好玩 知识星球 公众号2023年终总结
+                            
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            
+
+        </div>
+    </div>
+</dialog>
+                            </div>
+                            <div
+                                class="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--header-height)-var(--footer-height))] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
+                                <div class="h-(--top-spacing) shrink-0"></div>
+                                <div class="no-scrollbar overflow-y-auto px-8">
+    <div class="flex flex-col gap-2 p-4 pt-0 text-sm">
+        <p class="text-muted-foreground bg-background sticky top-0 h-6 text-xs">On This Page</p>
+        
+        
+        
+        
+        <a href="#_1"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="2">
+            北京
+        </a>
+        
+
+        
+        <a href="#hacking8"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="2">
+            Hacking8安全信息流
+        </a>
+        
+
+        
+        <a href="#_2"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="2">
+            微信公众号
+        </a>
+        
+
+        
+        <a href="#_3"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="2">
+            工作
+        </a>
+        
+
+        
+        <a href="#_4"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="2">
+            回顾计划
+        </a>
+        
+
+        
+        <a href="#_5"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="2">
+            生活
+        </a>
+        
+
+        
+        <a href="#new-2022"
+            class="text-muted-foreground hover:text-foreground data-[active=true]:text-foreground text-[0.8rem] no-underline transition-colors data-[depth=3]:pl-4 data-[depth=4]:pl-6"
+            data-active="false" data-depth="2">
+            New 2022()
+        </a>
+        
+
+        
+        
+        
+        
+
+    </div>
+    <div class="h-12"></div>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="group-has-[.section-soft]/body:bg-surface/40 3xl:fixed:bg-transparent dark:bg-transparent">
+    <div class="container-wrapper px-4 xl:px-6">
+        <div class="flex h-(--footer-height) items-center justify-between">
+            <div class="text-muted-foreground w-full text-center text-xs leading-loose sm:text-sm">
+                Built by<!-- --> w8ay &mdash;
+                provided by&nbsp;<a href="https://github.com/asiffer/mkdocs-shadcn">shadcn theme</a> 
+            </div>
+        </div>
+    </div>
+</footer>
+    </div>
+     
+
+<script src="../../search/main.js"></script>
+
+
+    
+
+    <script src="../../js/copy-button.js"></script>
+    <script>updatePygmentsStylesheet();</script>
+    
+    
+</body>
+
+</html>

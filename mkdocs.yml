@@ -1,0 +1,27 @@
+site_name: "W8AY's Blog"
+site_description: '记录回忆，知识和畅想的地方'
+site_author: 'w8ay'
+site_url: 'https://w8ay.fun'
+repo_url: "https://github.com/boy-hack"
+
+copyright: 'Copyright &copy; 2016-2025 W8AY'
+plugins:
+  - search
+hooks:
+  - shadcn/hooks.py
+theme:
+  name: shadcn
+  custom_dir: shadcn
+  pygments_style: # default styles 
+    light: shadcn-light
+    dark: github-dark
+  show_title: true
+  show_stargazers: false
+  topbar_sections: true
+
+markdown_extensions:
+  admonition:
+  codehilite:
+  fenced_code:
+  pymdownx.tabbed:
+  pymdownx.snippets:
